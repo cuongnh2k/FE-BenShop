@@ -1,4 +1,3 @@
-import '../assets/css/Footer.css'
 
 const Footer = () => {
     return <div className="container-fluid justify-content-center">
