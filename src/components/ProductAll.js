@@ -89,7 +89,6 @@ const ProductNew = () => {
                 </div>
             </div>
         </div>
-
     </>
 }
 export default ProductNew
