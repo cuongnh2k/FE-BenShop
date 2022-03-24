@@ -27,8 +27,8 @@ const Header = () => {
                           aria-expanded="false">Sản phẩm</Link>
                     <div className="dropdown-menu">
                         {category.data.map(o =>
-                            <>
-                                <Link key={o.id} className="dropdown-item"
+                            <div key={o.id}>
+                                <Link className="dropdown-item"
                                       to={`/product?category=${o.id}`}>{o.name}</Link>
                                 {o.categories1.map(oo =>
                                     <ul key={oo.id}>
@@ -44,7 +44,7 @@ const Header = () => {
                                         </li>
                                     </ul>
                                 )}
-                            </>
+                            </div>
                         )}
                     </div>
                 </li>
