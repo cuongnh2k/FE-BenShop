@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
-
+.footer{
+    display: block;
+}
 .container-fluid {
     margin-top: 101px;
     color: #000 !important

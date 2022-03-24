@@ -14,8 +14,11 @@ const Header = () => {
     console.log(category)
 
     return <header>
+
         <nav className="fixed-top container">
-            <ul className="nav nav-tabs" style={{backgroundColor: "white"}}>
+            <h2 class="align-middle text-center" style={{backgroundColor: "white"}}><b className="text-warning"> Ben<span
+                className="text-muted"> Shop</span></b></h2>
+            <ul className="nav nav-tabs" style={{backgroundColor: "white",marginTop: -10}}>
                 <li className="nav-item" >
                     <Link className="nav-link active" to="/">Trang chủ</Link>
                 </li>
@@ -52,6 +55,7 @@ const Header = () => {
                 <li className="nav-item">
                     <a className="nav-link">Tài khoản <i className="bi bi-person-circle"></i></a>
                 </li>
+
             </ul>
         </nav>
     </header>

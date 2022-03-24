@@ -1,9 +1,10 @@
 import '../assets/css/Footer.css'
 
 const Footer = () => {
-    return <div className="container-fluid justify-content-center">
-        <hr className="mx-0 px-0"/>
-        <footer className="footer">
+     // <div className="container-fluid justify-content-center">
+
+         return <footer className="footer justify-content-center">
+            <hr className="mx-0 px-0"/>
             <div className="row justify-content-around mb-0 pt-5 pb-0 ">
                 <div className=" col-11">
                     <div className="row justify-content-center">
@@ -48,6 +49,6 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
-    </div>
+    // </div>
 }
 export default Footer
