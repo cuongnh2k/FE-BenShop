@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import BasicApi from "../api/BasicApi";
-import '../assets/css/Header.css'
 
 const Header = () => {
     const [category, setCategory] = useState({message: null, success: null, data: []})
@@ -11,15 +10,15 @@ const Header = () => {
             .then((res) => res.json())
             .then((o) => setCategory(o));
     }, []);
-    console.log(category)
 
     return <header>
-
         <nav className="fixed-top container">
-            <h2 class="align-middle text-center" style={{backgroundColor: "white"}}><b className="text-warning"> Ben<span
-                className="text-muted"> Shop</span></b></h2>
-            <ul className="nav nav-tabs" style={{backgroundColor: "white",marginTop: -10}}>
-                <li className="nav-item" >
+            <h2 className="align-middle text-center" style={{backgroundColor: "white"}}><em><b
+                className="text-warning"> Ben<span
+                className="text-muted"> Shop</span></b></em>
+            </h2>
+            <ul className="nav nav-tabs" style={{backgroundColor: "white", marginTop: -10}}>
+                <li className="nav-item">
                     <Link className="nav-link active" to="/">Trang chủ</Link>
                 </li>
 
@@ -34,11 +33,11 @@ const Header = () => {
                                 {o.categories1.map(oo =>
                                     <ul key={oo.id}>
                                         <li>
-                                            <a className="dropdown-item">{oo.name}</a>
+                                            <Link to={`/product?category=${oo.id}`} className="dropdown-item">{oo.name}</Link>
                                             {oo.categories2.map(ooo =>
                                                 <ul key={ooo.id}>
                                                     <li>
-                                                        <a className="dropdown-item">{ooo.name}</a>
+                                                        <Link to={`/product?category=${ooo.id}`} className="dropdown-item">{ooo.name}</Link>
                                                     </li>
                                                 </ul>
                                             )}
@@ -50,12 +49,11 @@ const Header = () => {
                     </div>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Giỏ hàng <i className="bi bi-cart"></i></a>
+                    <a className="nav-link" href="/">Giỏ hàng <i className="bi bi-cart"></i></a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">Tài khoản <i className="bi bi-person-circle"></i></a>
+                    <a className="nav-link" href="/">Tài khoản <i className="bi bi-person-circle"></i></a>
                 </li>
-
             </ul>
         </nav>
     </header>

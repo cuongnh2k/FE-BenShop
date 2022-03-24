@@ -1,8 +1,8 @@
-import {useLocation} from "react-router-dom";
+import ProductAll from "../components/ProductAll";
 
 const Product = () => {
-    const location=useLocation()
-    console.log(location)
-    return <h1></h1>
+    return <main>
+        <ProductAll/>
+    </main>
 }
 export default Product
