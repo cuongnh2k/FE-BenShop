@@ -10,7 +10,6 @@ const ProductNew = () => {
             .then((res) => res.json())
             .then((o) => setProduct(o));
     }, []);
-    console.log(product)
 
     return <>
         <h3 className="text-warning" style={{marginTop: 20}}>Sản phẩm mới</h3>

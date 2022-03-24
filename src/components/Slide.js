@@ -10,7 +10,6 @@ const Slide = () => {
             .then((res) => res.json())
             .then((o) => setProduct(o));
     }, []);
-    console.log(product)
 
     return <div id="carouselExampleCaptions" className="carousel slide" data-ride="carousel" style={{marginTop: 82}}>
         <ol className="carousel-indicators">

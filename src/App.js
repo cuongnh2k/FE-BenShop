@@ -17,7 +17,7 @@ const App = () => {
             <Route path='/cart' element={<Cart/>}/>
             <Route path='/account' element={<Account/>}/>
         </Routes>
-        <Footer/>
+        {/*<Footer/>*/}
     </>
 }
 export default App;
