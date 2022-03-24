@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
-import BasicApi from "../api/BasicApi";
 import {Link} from "react-router-dom";
+import BasicApi from "../api/BasicApi";
+import '../assets/css/Header.css'
 
 const Header = () => {
     const [category, setCategory] = useState({message: null, success: null, data: []})
@@ -14,13 +15,13 @@ const Header = () => {
 
     return <header>
         <nav className="fixed-top container">
-            <ul className="nav nav-tabs">
-                <li className="nav-item" >
+            <ul className="nav nav-tabs bg-primary">
+                <li className="nav-item" style={{border: "1px solid white"}} >
                     <Link className="nav-link active" to="/">Trang chủ</Link>
                 </li>
 
-                <li className="nav-item dropdown">
-                    <Link className="nav-link dropdown-toggle" data-toggle="dropdown" to="/product" role="button"
+                <li className="nav-item dropdown" style={{border: "1px solid white"}}>
+                    <Link className="nav-link dropdown-toggle" style={{color: "white"}} data-toggle="dropdown" to="/product" role="button"
                           aria-expanded="false">Sản phẩm</Link>
                     <div className="dropdown-menu">
                         {category.data.map(o =>
@@ -45,11 +46,11 @@ const Header = () => {
                         )}
                     </div>
                 </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Giỏ hàng <i className="bi bi-cart"></i></a>
+                <li className="nav-item" style={{border: "1px solid white"}}>
+                    <a className="nav-link" style={{color: "white"}} href="#">Giỏ hàng <i className="bi bi-cart"></i></a>
                 </li>
-                <li className="nav-item">
-                    <a className="nav-link">Tài khoản <i className="bi bi-person-circle"></i></a>
+                <li className="nav-item" style={{border: "1px solid white"}}>
+                    <a className="nav-link" style={{color: "white"}}>Tài khoản <i className="bi bi-person-circle"></i></a>
                 </li>
             </ul>
         </nav>
