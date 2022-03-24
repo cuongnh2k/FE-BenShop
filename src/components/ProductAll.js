@@ -5,7 +5,7 @@ import {useLocation} from "react-router-dom";
 const ProductNew = () => {
     const [product, setProduct] = useState({message: null, success: null, data: {content: [], totalPages: null}})
     const [page, setPage] = useState(0)
-
+    const [bool,setbool] = useState(false)
     let pages = []
     let categoryId = ''
     let location = useLocation()
@@ -17,7 +17,8 @@ const ProductNew = () => {
         fetch(BasicApi.searchProduct('size=6&categoryId=' + categoryId+ '&page=' + page).url)
             .then((res) => res.json())
             .then((o) => setProduct(o));
-    }, [categoryId, page]);
+        setbool(true)
+    }, [categoryId, page,bool]);
 
     for (let i = 0; i < product.data.totalPages; i++) {
         pages.push(i)

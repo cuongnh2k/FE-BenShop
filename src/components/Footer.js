@@ -1,7 +1,5 @@
 
 const Footer = () => {
-     // <div className="container-fluid justify-content-center">
-
          return <footer className="footer justify-content-center">
             <hr className="mx-0 px-0"/>
             <div className="row justify-content-around mb-0 pt-5 pb-0 ">
