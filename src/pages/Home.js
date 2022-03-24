@@ -1,9 +1,10 @@
 import Slide from "../components/Slide";
+import ProductNew from "../components/ProductNew";
 
 const Home = () => {
-    return <div style={{minHeight: 1000}}>
-        <h1>Home</h1>
+    return <main>
         <Slide/>
-    </div>
+        <ProductNew/>
+    </main>
 }
 export default Home

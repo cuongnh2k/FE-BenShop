@@ -1,4 +1,3 @@
-import '../assets/css/Header.css';
 import {useEffect, useState} from "react";
 import BasicApi from "../api/BasicApi";
 import {Link} from "react-router-dom";
@@ -13,66 +12,47 @@ const Header = () => {
     }, []);
     console.log(category)
 
-    return <header className="header">
-        <div className="container">
-            <div className="header__container">
-                <nav className="header__nav nav">
-                    <ul className="header__list">
-                        <li className="header__item">
-                            <Link className="header__link" to="/">Trang chủ</Link>
-                        </li>
-                        <li className="header__item">
-                            <Link className="header__link" to="/product">Sản phẩm</Link>
-                            <div className="category-one">
-                                <ul className="header__dropdown">
-                                    {category.data.map(o => <>
-                                        <Link key={o.id} to="/product" className="header__dropdown-link">
-                                            <li className="header__dropdown-cate-top">
-                                                {o.name}
-                                            </li>
-                                        </Link>
-                                        {o.categories1.map(oo => <>
-                                            <Link key={oo.id} to="/product" className="header__dropdown-link">
-                                                <li className="header__dropdown-cate-large">
-                                                    {oo.name}
-                                                </li>
-                                            </Link>
+    return <header>
+        <nav className="fixed-top container">
+            <ul className="nav nav-tabs">
+                <li className="nav-item" >
+                    <Link className="nav-link active" to="/">Trang chủ</Link>
+                </li>
+
+                <li className="nav-item dropdown">
+                    <Link className="nav-link dropdown-toggle" data-toggle="dropdown" to="/product" role="button"
+                          aria-expanded="false">Sản phẩm</Link>
+                    <div className="dropdown-menu">
+                        {category.data.map(o =>
+                            <>
+                                <Link key={o.id} className="dropdown-item"
+                                      to={`/product?category=${o.id}`}>{o.name}</Link>
+                                {o.categories1.map(oo =>
+                                    <ul key={oo.id}>
+                                        <li>
+                                            <a className="dropdown-item">{oo.name}</a>
                                             {oo.categories2.map(ooo =>
-                                                <Link key={ooo.id} to="/product" className="header__dropdown-link">
-                                                    <li className="header__dropdown-item">
-                                                        {ooo.name}
+                                                <ul key={ooo.id}>
+                                                    <li>
+                                                        <a className="dropdown-item">{ooo.name}</a>
                                                     </li>
-                                                </Link>
-                                            )}</>
-                                        )}
-                                    </>)}
-                                </ul>
-                            </div>
-                        </li>
-
-                    </ul>
-                </nav>
-
-                <div className="text-logo">
-                    <h2><b className="text-warning"> Ben <span className="text-muted"> Shop</span></b></h2>
-                </div>
-
-                <div className="icon_header" id="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                         className="bi bi-cart"
-                         viewBox="0 0 16 16">
-                        <path
-                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                         className="bi bi-person"
-                         viewBox="0 0 16 16">
-                        <path
-                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
+                                                </ul>
+                                            )}
+                                        </li>
+                                    </ul>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Giỏ hàng <i className="bi bi-cart"></i></a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link">Tài khoản <i className="bi bi-person-circle"></i></a>
+                </li>
+            </ul>
+        </nav>
     </header>
 }
 export default Header
