@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import BasicApi from "../api/BasicApi";
+import {Link} from "react-router-dom";
 
 const Slide = () => {
 
@@ -20,26 +21,30 @@ const Slide = () => {
         <div className="carousel-inner" style={{maxHeight: 500}}>
             {product.data.content.filter((o, i) => i === 0).map((o) =>
                 <div key={o.id} className="carousel-item active">
-                    <img style={{maxHeight: 500, width: "auto"}}
-                         src={o.productImages[0].path} className="d-block w-100"
-                         alt="..."/>
-                    <div className="carousel-caption d-none d-md-block">
-                        <p style={{fontSize: "400%", fontWeight: "bold"}}
-                           className="text-danger text-left">Giảm {o.discount}%</p>
-                        <p style={{fontSize: "200%", fontWeight: "bold"}}>{o.name}</p>
-                    </div>
+                    <Link to={`/product-detail?id=${o.id}`}>
+                        <img style={{maxHeight: 500, width: "auto"}}
+                             src={o.productImages[0].path} className="d-block w-100"
+                             alt={o.name}/>
+                        <div className="carousel-caption d-none d-md-block">
+                            <p style={{fontSize: "400%", fontWeight: "bold"}}
+                               className="text-danger text-left">Giảm {o.discount}%</p>
+                            <p style={{fontSize: "200%", fontWeight: "bold"}}>{o.name}</p>
+                        </div>
+                    </Link>
                 </div>
             )}
             {product.data.content.filter((o, i) => i !== 0).map((o) =>
                 <div key={o.id} className="carousel-item">
-                    <img style={{maxHeight: 500, width: "auto"}}
-                         src={o.productImages[0].path} className="d-block w-100"
-                         alt="..."/>
-                    <div className="carousel-caption d-none d-md-block">
-                        <p style={{fontSize: "400%", fontWeight: "bold"}}
-                           className="text-danger text-left">Giảm {o.discount}%</p>
-                        <p style={{fontSize: "200%", fontWeight: "bold"}}>{o.name}</p>
-                    </div>
+                    <Link to={`/product-detail?id=${o.id}`}>
+                        <img style={{maxHeight: 500, width: "auto"}}
+                             src={o.productImages[0].path} className="d-block w-100"
+                             alt={o.name}/>
+                        <div className="carousel-caption d-none d-md-block">
+                            <p style={{fontSize: "400%", fontWeight: "bold"}}
+                               className="text-danger text-left">Giảm {o.discount}%</p>
+                            <p style={{fontSize: "200%", fontWeight: "bold"}}>{o.name}</p>
+                        </div>
+                    </Link>
                 </div>
             )}
         </div>
