@@ -6,7 +6,6 @@ import '../assets/css/ProductAll.css'
 const ProductNew = () => {
     const [product, setProduct] = useState({message: null, success: null, data: {content: [], totalPages: null}})
     const [page, setPage] = useState(0)
-    const [bool,setbool] = useState(false)
     const [search, setSearch] = useState('')
     const [filterPriceMax, setFilterPriceMax] = useState(10000000)
     const [filterPriceMin, setFilterPriceMin] = useState(0)
@@ -30,7 +29,6 @@ const ProductNew = () => {
             + '&sort=' + arrowPrice + ',' + arrowDate).url)
             .then((res) => res.json())
             .then((o) => setProduct(o));
-        setbool(true)
     }, [categoryId, page, search, filterPriceMax, filterPriceMin, arrowPrice, arrowDate]);
 
     for (let i = 0; i < product.data.totalPages; i++) {
