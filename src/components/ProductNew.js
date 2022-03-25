@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import BasicApi from "../api/BasicApi";
-import {Link} from "react-router-dom";
+import ProductCard from "./ProductCard";
 
 const ProductNew = () => {
 
@@ -18,22 +18,7 @@ const ProductNew = () => {
         <div className="row">
             {product.data.content.map(o =>
                 <div key={o.id} className="col-12 col-md-4 col-xl-2 col-lg-3 col-sm-6">
-                    <Link to={`/product-detail?id=${o.id}`}>
-                        <img src={o.productImages[0].path} className="card-img-top" alt={o.name}/>
-                        <div className="card-body card">
-                            <h5 className="card-title text-truncate">{o.name}</h5>
-                            <p className="card-text text-center text-truncate text-secondary">
-                                <del>{o.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</del>
-                                VND
-                            </p>
-                            <p className="card-text text-center text-truncate text-danger">
-
-                                    {o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
-
-                            </p>
-                            <p className="card-text"><small className="text-muted"></small></p>
-                        </div>
-                    </Link>
+                    <ProductCard product={o}/>
                 </div>
             )}
         </div>
