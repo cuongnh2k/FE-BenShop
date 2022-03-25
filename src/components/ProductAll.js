@@ -48,11 +48,11 @@ const ProductNew = () => {
                 <label style={{marginTop: 10}} htmlFor="customRange1">Giá cao nhất</label>
                 <input type="range" className="custom-range" min="0" max="10000000" step="100000" id="customRange1"
                        onChange={e => setFilterPriceMax(e.target.value)}/><sup
-                style={{float: "right"}}>{filterPriceMax} VND</sup>
+                style={{float: "right"}}>{filterPriceMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</sup>
                 <label htmlFor="customRange2">Giá thấp nhất</label>
                 <input type="range" className="custom-range" min="0" max="10000000" step="100000" id="customRange2"
                        onChange={e => setFilterPriceMin(e.target.value)}/><sup
-                style={{float: "right"}}>{filterPriceMin} VND</sup>
+                style={{float: "right"}}>{filterPriceMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</sup>
 
                 <label style={{marginTop: 10}}>Giá</label>
                 <input style={{marginLeft: 20}} type="radio" name="szGia" value="price:asc"
@@ -80,10 +80,10 @@ const ProductNew = () => {
                                 <div className="card-body card">
                                     <h5 className="card-title text-truncate">{o.name}</h5>
                                     <p className="card-text text-center text-truncate text-secondary">
-                                        <del>{o.price}</del>
+                                        <del>{o.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</del>
                                         VND
                                     </p>
-                                    <p className="card-text text-center text-truncate text-danger">{o.money} VND</p>
+                                    <p className="card-text text-center text-truncate text-danger">{o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</p>
                                     <p className="card-text"><small className="text-muted"></small></p>
                                 </div>
                             </Link>
