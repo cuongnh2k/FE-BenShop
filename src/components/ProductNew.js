@@ -23,10 +23,14 @@ const ProductNew = () => {
                         <div className="card-body card">
                             <h5 className="card-title text-truncate">{o.name}</h5>
                             <p className="card-text text-center text-truncate text-secondary">
-                                <del>{o.price}</del>
+                                <del>{o.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</del>
                                 VND
                             </p>
-                            <p className="card-text text-center text-truncate text-danger">{o.money} VND</p>
+                            <p className="card-text text-center text-truncate text-danger">
+
+                                    {o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
+
+                            </p>
                             <p className="card-text"><small className="text-muted"></small></p>
                         </div>
                     </Link>
