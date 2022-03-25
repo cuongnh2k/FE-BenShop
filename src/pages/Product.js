@@ -2,7 +2,7 @@ import ProductAll from "../components/ProductAll";
 
 const Product = () => {
     document.title='Sản phẩm'
-    return <main style={{minHeight: 1000}}>
+    return <main style={{minHeight: "auto"}}>
         <ProductAll/>
     </main>
 }
