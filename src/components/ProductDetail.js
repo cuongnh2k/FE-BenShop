@@ -4,9 +4,8 @@ import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
 
 const ProductDetail = () => {
-    const [product, setProduct] = useState({message: null, success: null, data: {
-            productImages: [{path: null}]
-        }})
+    const [product, setProduct] = useState({message: null, success: null, data: {productImages: [{path: null}]}})
+    const [path, setPath] = useState('')
 
     let productId = ''
     let location = useLocation()
@@ -22,18 +21,44 @@ const ProductDetail = () => {
             .then((o) => setProduct(o));
     }, []);
 
-    console.log(product.data.productImages[0].path)
+    document.title=product.data.name
 
     return <>
         <p style={{marginTop: 120}} className="text-warning">
             <Link to="/">Trang chủ</Link>/<Link to="/product">Sản phẩm</Link>/Chi tiết
         </p>
         <div className="row">
-            <div className="col-6">
-                <div></div>
-                <img style={{maxHeight: 500}} className="img-thumbnail" src={product.data.productImages[0].path} alt={product.data.name}/>
+            <div className="col-md-6 border-right">
+                <div className="row">
+                    <div className="col-sm-2">
+                        <div className="row">
+                            {product.data.productImages.map(o =>
+                                <div key={o.id} className="col-12">
+                                    <img onClick={() => setPath(o.path)} className="img-fluid border"
+                                         src={o.path} alt={o.name}/>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="col-sm-10">
+                        <img style={{maxHeight: 500}} className="img-fluid"
+                             src={path || product.data.productImages[0].path}
+                             alt={product.data.productImages[0].name}/>
+                    </div>
+                </div>
             </div>
-
+            <div className="col-md-6">
+                <h2>{product.data.name}</h2>
+                <p><del className="text-secondary">{product.data.price} </del> VND</p>
+                <h3 className="text-danger">{product.data.money} VND</h3>
+                <p style={{marginTop:20}}>Số lượng</p>
+                <input type="number" className="form-control" style={{maxWidth: 100,display: "inline"}} min="1"/>
+                <button style={{margin: "-5px 0 0 5px"}} className="btn btn-success"><i className="bi bi-cart-plus"></i></button>
+            </div>
+            <div className="col-12 border-top">
+                <h3 style={{marginTop: 20}}>Chi tiết sản phẩm</h3>
+                {product.data.description}
+            </div>
         </div>
     </>
 }
