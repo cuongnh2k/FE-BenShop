@@ -35,7 +35,7 @@ const ProductDetail = () => {
                         <div className="row">
                             {product.data.productImages.map(o =>
                                 <div key={o.id} className="col-12">
-                                    <img onClick={() => setPath(o.path)} className="img-fluid border"
+                                    <img onMouseMove={() => setPath(o.path)} className="img-fluid border"
                                          src={o.path} alt={o.name}/>
                                 </div>
                             )}
@@ -58,7 +58,7 @@ const ProductDetail = () => {
             </div>
             <div className="col-12 border-top">
                 <h3 style={{marginTop: 20}}>Chi tiết sản phẩm</h3>
-                {product.data.description}
+                {product.data.description||'Đang cập nhật ...'}
             </div>
         </div>
     </>

@@ -21,12 +21,8 @@ const ProductNew = () => {
 
     useEffect(() => {
         fetch(BasicApi.searchProduct(
-            'size=4&categoryId=' + categoryId
-            + '&page=' + page
-            + '&search=' + search
-            + '&priceMax=' + filterPriceMax
-            + '&priceMin=' + filterPriceMin
-            + '&sort=' + arrowPrice + ',' + arrowDate).url)
+            `size=4&categoryId=${categoryId}&page=${page}&search=${search}&priceMax=${filterPriceMax}&priceMin=${filterPriceMin}
+            &sort=${arrowPrice},${arrowDate}`).url)
             .then((res) => res.json())
             .then((o) => setProduct(o));
     }, [categoryId, page, search, filterPriceMax, filterPriceMin, arrowPrice, arrowDate]);
