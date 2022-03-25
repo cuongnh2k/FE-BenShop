@@ -9,7 +9,7 @@ const Footer = () => {
                         <div className="col-md-3 col-12 my-sm-0 mt-5">
                             <ul className="list-unstyled">
                                 <li className="mt-md-3 mt-4" style={{fontWeight: 600}}>Tổng đài hỗ trợ</li>
-                                <li>Liên hệ đặt hàng:</li>
+                                <li>Liên hệ đặt hàng</li>
                                 <li>Thắc mắc đơn hàng</li>
                                 <li>Góp ý khiếu nại</li>
                             </ul>
