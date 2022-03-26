@@ -20,22 +20,22 @@ const AddToCart = (props) => {
     const validate_ = () => {
         if (soLuong < 1) {
             notification.error({
-                text: 'Số lượng tối thiểu 1',
+                text: 'Số lượng tối thiểu 1'
             })
         }
         if (soLuong > 1000) {
             notification.error({
-                text: 'Số lượng tối đa 1000',
+                text: 'Số lượng tối đa 1000'
             })
         }
         if (yeuCau.length === 0) {
             notification.error({
-                text: 'Vui lòng nhập yêu cầu',
+                text: 'Vui lòng nhập yêu cầu'
             })
         }
         if (yeuCau.length > 1000) {
             notification.error({
-                text: 'Yêu cầu nhập tối đa 1000 ký tự',
+                text: 'Yêu cầu nhập tối đa 1000 ký tự'
             })
         }
         if (soLuong >= 1 && soLuong <= 1000 && yeuCau.length > 0 && yeuCau.length <= 1000) {
@@ -49,7 +49,7 @@ const AddToCart = (props) => {
             })
             localStorage.setItem('storage', JSON.stringify(storage))
             notification.success({
-                text: 'Thêm vào giỏ hàng thành công',
+                text: 'Thêm vào giỏ hàng thành công'
             })
         }
     }

@@ -1,10 +1,10 @@
 import {Link} from "react-router-dom";
-import Domain from "../api/Domain";
 import {useState} from "react";
 import {useNotification} from "react-hook-notification";
+import Order from "../components/Order";
 
 const Cart = () => {
-    document.title='Giỏ hàng'
+    document.title = 'Giỏ hàng'
     const notification = useNotification();
     let storage = localStorage.getItem('storage')
     let list
@@ -15,7 +15,7 @@ const Cart = () => {
             sum += o.money * o.quantity
         })
     } else {
-        window.location = Domain + "/product"
+        list = []
     }
     const [listState, setListState] = useState(list)
 
@@ -34,11 +34,11 @@ const Cart = () => {
         let list = JSON.parse(localStorage.getItem('storage'))
         for (let i = 0; i < list.length; i++) {
             if (list[i].id === id) {
-                list[i].quantity += 1
+                list[i].quantity += Number(1)
                 if (list[i].quantity > 1000) {
-                    list[i].quantity -= 1
+                    list[i].quantity -= Number(1)
                     notification.error({
-                        text: 'Số lượng tối đa 1000',
+                        text: 'Số lượng tối đa 1000'
                     })
                 }
                 break
@@ -51,11 +51,11 @@ const Cart = () => {
         let list = JSON.parse(localStorage.getItem('storage'))
         for (let i = 0; i < list.length; i++) {
             if (list[i].id === id) {
-                list[i].quantity -= 1
+                list[i].quantity -= Number(1)
                 if (list[i].quantity < 1) {
-                    list[i].quantity += 1
+                    list[i].quantity += Number(1)
                     notification.error({
-                        text: 'Số lượng tối thiểu 1',
+                        text: 'Số lượng tối thiểu 1'
                     })
                 }
                 break
@@ -98,11 +98,10 @@ const Cart = () => {
                             Số lượng: <input type="number" className="form-control"
                                              style={{maxWidth: 100, display: "inline", marginTop: 5}}
                                              value={o.quantity}/>
-                            <i className="bi bi-plus-circle-fill text-success" style={{margin: "0 20px"}}
+                            <i className="bi bi-plus-circle-fill text-success" style={{margin: "0 30px"}}
                                onClick={() => handleQuantityCong(o.id)}/>
-                            <i className="bi bi-dash-circle-fill text-danger" style={{margin: "0 20px 0 0"}}
-                               onClick={() => handleQuantityTru(o.id)}/>
-                            <i className="bi bi-trash3-fill text-danger" style={{margin: "0 0 0 60px"}}
+                            <i className="bi bi-dash-circle-fill text-danger" onClick={() => handleQuantityTru(o.id)}/>
+                            <i className="bi bi-trash3-fill text-danger" style={{margin: "0 0 0 30px"}}
                                onClick={() => handleQuantityXoa(o.id)}/>
                         </li>
                         <li>Thành tiền:
@@ -117,7 +116,7 @@ const Cart = () => {
         )}
         <h3 className="text-secondary">Tổng: <span
             className="text-danger">{sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></h3>
-        <button className="btn btn-success">Thanh toán</button>
+        <Order/>
     </main>
 }
 export default Cart
