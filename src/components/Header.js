@@ -56,7 +56,7 @@ const Header = () => {
                 </li>
                 <BlockCart/>
                 <li className="nav-item">
-                    <a className="nav-link" href="/">Tài khoản <i className="bi bi-person-circle"/></a>
+                    <a className="nav-link" href="/"><i className="bi bi-person-circle"/></a>
                 </li>
             </ul>
         </nav>

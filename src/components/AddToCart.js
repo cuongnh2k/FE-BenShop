@@ -39,9 +39,15 @@ const AddToCart = (props) => {
             })
         }
         if (soLuong >= 1 && soLuong <= 1000 && yeuCau.length > 0 && yeuCau.length <= 1000) {
-            storage.push({productId: props.product.data.id, quantity: soLuong, description: yeuCau})
+            storage.push({
+                id: props.product.data.id
+                , name: props.product.data.name
+                , image: props.product.data.productImages[0].path
+                , money: props.product.data.money
+                , quantity: soLuong
+                , description: yeuCau
+            })
             localStorage.setItem('storage', JSON.stringify(storage))
-            location.reload()
             notification.success({
                 text: 'Thêm vào giỏ hàng thành công',
             })
