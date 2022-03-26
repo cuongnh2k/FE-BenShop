@@ -4,7 +4,7 @@ import {useState} from "react";
 import {useNotification} from "react-hook-notification";
 
 const Cart = () => {
-
+    document.title='Giỏ hàng'
     const notification = useNotification();
     let storage = localStorage.getItem('storage')
     let list
