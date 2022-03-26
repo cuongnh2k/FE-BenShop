@@ -53,7 +53,7 @@ const ProductDetail = () => {
             </div>
             <div className="col-12 border-top">
                 <h3 style={{marginTop: 20}}>Chi tiết sản phẩm</h3>
-                {product.data.description || 'Đang cập nhật ...'}
+                {product.data.description || `Đang cập nhật ...`}
             </div>
         </div>
     </>

@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import BasicApi from "../api/BasicApi";
+import BlockCart from "./BlockCart";
 
 const Header = () => {
     const [category, setCategory] = useState({message: null, success: null, data: []})
@@ -13,11 +14,13 @@ const Header = () => {
 
     return <header>
         <nav className="fixed-top container">
-            <h2 className="align-middle text-center" style={{backgroundColor: "white"}}>
-                <em>
-                    <b className="text-warning"> Ben<span className="text-muted"> Shop</span></b>
-                </em>
-            </h2>
+            <Link to="/">
+                <h2 className="align-middle text-center" style={{backgroundColor: "white"}}>
+                    <em>
+                        <b className="text-warning"> Ben<span className="text-muted"> Shop</span></b>
+                    </em>
+                </h2>
+            </Link>
             <ul className="nav nav-tabs" style={{backgroundColor: "white", marginTop: -10}}>
                 <li className="nav-item">
                     <Link className="nav-link active" to="/">Trang chủ</Link>
@@ -51,11 +54,9 @@ const Header = () => {
                         )}
                     </div>
                 </li>
+                <BlockCart/>
                 <li className="nav-item">
-                    <a className="nav-link" href="/">Giỏ hàng <i className="bi bi-cart"></i></a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/">Tài khoản <i className="bi bi-person-circle"></i></a>
+                    <a className="nav-link" href="/"><i className="bi bi-person-circle"/></a>
                 </li>
             </ul>
         </nav>
