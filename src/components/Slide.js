@@ -24,13 +24,13 @@ const Slide = () => {
                 {product.data.content.filter((o, i) => i === 0).map((o) =>
                     <div key={o.id} className="carousel-item active">
                         <Link to={`/product-detail?id=${o.id}`}>
-                            <img style={{maxHeight: 500, width: "auto"}}
-                                 src={o.productImages[0].path} className="d-block w-100 "
+                            <img style={{maxHeight: 500}}
+                                 src={o.productImages[1].path} className="d-block w-100 "
                                  alt={o.name}/>
                             <div className="carousel-caption d-none d-md-block">
-                                <p style={{fontSize: "300%", fontWeight: "bold"}}
+                                <p style={{fontSize: "300%", fontWeight: "bold",color: "red"}}
                                    className="text-left blink_me">Giảm {o.discount}%</p>
-                                <p style={{fontSize: "150%", fontWeight: "bold"}}>{o.name}</p>
+                                <p style={{fontSize: "150%", fontWeight: "bold",color: "red"}}>{o.name}</p>
                             </div>
                         </Link>
                     </div>
@@ -38,13 +38,13 @@ const Slide = () => {
                 {product.data.content.filter((o, i) => i !== 0).map((o) =>
                     <div key={o.id} className="carousel-item">
                         <Link to={`/product-detail?id=${o.id}`}>
-                            <img style={{maxHeight: 500, width: "auto"}}
-                                 src={o.productImages[0].path} className="d-block w-100 "
+                            <img style={{maxHeight: 500}}
+                                 src={o.productImages[1].path} className="d-block w-100 "
                                  alt={o.name}/>
                             <div className="carousel-caption d-none d-md-block">
-                                <p style={{fontSize: "300%", fontWeight: "bold"}}
+                                <p style={{fontSize: "300%", fontWeight: "bold",color: "red"}}
                                    className="text-left blink_me">Giảm {o.discount}%</p>
-                                <p style={{fontSize: "150%", fontWeight: "bold"}}>{o.name}</p>
+                                <p style={{fontSize: "150%", fontWeight: "bold",color: "red"}}>{o.name}</p>
                             </div>
                         </Link>
                     </div>

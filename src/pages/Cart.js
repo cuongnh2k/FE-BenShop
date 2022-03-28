@@ -1,10 +1,10 @@
 import {Link} from "react-router-dom";
-import Domain from "../api/Domain";
 import {useState} from "react";
 import {useNotification} from "react-hook-notification";
+import Order from "../components/Order";
 
 const Cart = () => {
-    document.title='Giỏ hàng'
+    document.title = 'Giỏ hàng'
     const notification = useNotification();
     let storage = localStorage.getItem('storage')
     let list
@@ -15,7 +15,7 @@ const Cart = () => {
             sum += o.money * o.quantity
         })
     } else {
-        window.location = Domain + "/product"
+        list = []
     }
     const [listState, setListState] = useState(list)
 
@@ -34,11 +34,11 @@ const Cart = () => {
         let list = JSON.parse(localStorage.getItem('storage'))
         for (let i = 0; i < list.length; i++) {
             if (list[i].id === id) {
-                list[i].quantity += 1
+                list[i].quantity += Number(1)
                 if (list[i].quantity > 1000) {
-                    list[i].quantity -= 1
+                    list[i].quantity -= Number(1)
                     notification.error({
-                        text: 'Số lượng tối đa 1000',
+                        text: 'Số lượng tối đa 1000'
                     })
                 }
                 break
@@ -51,11 +51,11 @@ const Cart = () => {
         let list = JSON.parse(localStorage.getItem('storage'))
         for (let i = 0; i < list.length; i++) {
             if (list[i].id === id) {
-                list[i].quantity -= 1
+                list[i].quantity -= Number(1)
                 if (list[i].quantity < 1) {
-                    list[i].quantity += 1
+                    list[i].quantity += Number(1)
                     notification.error({
-                        text: 'Số lượng tối thiểu 1',
+                        text: 'Số lượng tối thiểu 1'
                     })
                 }
                 break
@@ -75,7 +75,7 @@ const Cart = () => {
     return <main style={{marginTop: 120, minHeight: 500}}>
         <p className="text-warning">
             <div style={{marginBottom: 20}}>
-                <Link to="/">Trang chủ</Link>/<Link to="/product">Sản phẩm</Link>/Giỏ hàng
+                <Link to="/">Trang chủ</Link>/Giỏ hàng
             </div>
         </p>
         {listState.map(o =>
@@ -89,7 +89,7 @@ const Cart = () => {
                     <ul>
                         <li>Mã sản phẩm: <span>{o.id}</span></li>
                         <li>Tên: <span>{o.name}</span></li>
-                        <li>Giá: <span>{o.money}</span></li>
+                        <li>Giá: <span>{o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></li>
                         <li>Yêu cầu:
                             <textarea onChange={(e) => handleDescription(o.id, e.target.value)}
                                       className="form-control">{o.description}</textarea>
@@ -98,11 +98,10 @@ const Cart = () => {
                             Số lượng: <input type="number" className="form-control"
                                              style={{maxWidth: 100, display: "inline", marginTop: 5}}
                                              value={o.quantity}/>
-                            <i className="bi bi-plus-circle-fill text-success" style={{margin: "0 20px"}}
+                            <i className="bi bi-plus-circle-fill text-success" style={{margin: "0 30px"}}
                                onClick={() => handleQuantityCong(o.id)}/>
-                            <i className="bi bi-dash-circle-fill text-danger" style={{margin: "0 20px 0 0"}}
-                               onClick={() => handleQuantityTru(o.id)}/>
-                            <i className="bi bi-trash3-fill text-danger" style={{margin: "0 0 0 60px"}}
+                            <i className="bi bi-dash-circle-fill text-danger" onClick={() => handleQuantityTru(o.id)}/>
+                            <i className="bi bi-trash3-fill text-danger" style={{margin: "0 0 0 30px"}}
                                onClick={() => handleQuantityXoa(o.id)}/>
                         </li>
                         <li>Thành tiền:
@@ -117,7 +116,7 @@ const Cart = () => {
         )}
         <h3 className="text-secondary">Tổng: <span
             className="text-danger">{sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></h3>
-        <button className="btn btn-success">Thanh toán</button>
+        <Order/>
     </main>
 }
 export default Cart

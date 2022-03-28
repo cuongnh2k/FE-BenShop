@@ -55,8 +55,13 @@ const Header = () => {
                     </div>
                 </li>
                 <BlockCart/>
-                <li className="nav-item">
-                    <a className="nav-link" href="/"><i className="bi bi-person-circle"/></a>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                       aria-expanded="false"><i className="bi bi-person-circle"/></a>
+                    <div className="dropdown-menu">
+                        <a className="dropdown-item" href="#">Tài khoản</a>
+                        <Link className="dropdown-item" to="/purchase-order">Đơn mua</Link>
+                    </div>
                 </li>
             </ul>
         </nav>
