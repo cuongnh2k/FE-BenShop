@@ -33,8 +33,8 @@ const Login = () => {
                             text: o.message
                         })
                     } else {
-                        localStorage.setItem('accessToken', JSON.stringify(o.data.accessToken))
-                        localStorage.setItem('refreshToken', JSON.stringify(o.data.refreshToken))
+                        localStorage.setItem('accessToken', o.data.accessToken)
+                        localStorage.setItem('refreshToken', o.data.refreshToken)
                         // eslint-disable-next-line no-restricted-globals
                         history.back()
                     }

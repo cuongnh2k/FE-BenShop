@@ -75,7 +75,7 @@ const Cart = () => {
     return <main style={{marginTop: 120, minHeight: 500}}>
         <p className="text-warning">
             <div style={{marginBottom: 20}}>
-                <Link to="/">Trang chủ</Link>/<Link to="/product">Sản phẩm</Link>/Giỏ hàng
+                <Link to="/">Trang chủ</Link>/Giỏ hàng
             </div>
         </p>
         {listState.map(o =>
@@ -89,7 +89,7 @@ const Cart = () => {
                     <ul>
                         <li>Mã sản phẩm: <span>{o.id}</span></li>
                         <li>Tên: <span>{o.name}</span></li>
-                        <li>Giá: <span>{o.money}</span></li>
+                        <li>Giá: <span>{o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></li>
                         <li>Yêu cầu:
                             <textarea onChange={(e) => handleDescription(o.id, e.target.value)}
                                       className="form-control">{o.description}</textarea>

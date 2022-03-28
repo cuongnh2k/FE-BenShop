@@ -18,12 +18,6 @@ const BasicApi = {
             method: 'POST'
         }
     },
-    getCategoryById: (id) => {
-        return {
-            url: `${base}/category/${id}`,
-            method: 'GET'
-        }
-    },
     getAllCategory: (params) => {
         return {
             url: `${base}/category?${params}`,
@@ -44,20 +38,3 @@ const BasicApi = {
     }
 }
 export default BasicApi
-
-// fetch("http://localhost:3000/api/v1/users", {
-//     method: "POST",
-//     headers: {
-//         'Content-Type': 'application/json',
-//
-//     },
-//     body: JSON.stringify({user})
-// })
-//     .then(resp => resp.json())
-//     .then(data => {
-//         if (data.message) {
-//         } else {
-//             localStorage.setItem("token", data.jwt)
-//             dispatch(loginUser(data.user))
-//         }
-//     })

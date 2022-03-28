@@ -5,12 +5,18 @@ import ProductCard from "./ProductCard";
 const ProductNew = () => {
 
     const [product, setProduct] = useState({message: null, success: null, data: {content: []}})
+    const [page, setPage] = useState(0)
+    let pages = []
 
     useEffect(() => {
-        fetch(BasicApi.searchProduct('sort=id:desc&size=6').url)
+        fetch(BasicApi.searchProduct(`sort=id:desc&size=6&page=${page}`).url)
             .then((res) => res.json())
             .then((o) => setProduct(o));
-    }, []);
+    }, [page]);
+
+    for (let i = 0; i < product.data.totalPages; i++) {
+        pages.push(i)
+    }
 
     return <>
         <h3 className="text-warning" style={{marginTop: 20}}>Sản phẩm mới</h3>
@@ -21,6 +27,11 @@ const ProductNew = () => {
                     <ProductCard product={o}/>
                 </div>
             )}
+        </div>
+        <div style={{width: 350, margin: "20px auto 0 auto"}}>
+            {pages.map(o =>
+                <input className="btn border border-success page__hover" key={o} type="button" value={o}
+                       onClick={(e) => setPage(e.target.value)}/>)}
         </div>
     </>
 }

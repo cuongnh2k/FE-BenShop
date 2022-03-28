@@ -1,6 +1,5 @@
 .blink_me {
     animation: blinker 1s linear infinite;
-    text-shadow: 30px 30px 30px 30px white;
 }
 
 @keyframes blinker {
