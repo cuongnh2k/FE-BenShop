@@ -11,7 +11,6 @@ const ProductNew = () => {
     const [filterPriceMax, setFilterPriceMax] = useState(10000000)
     const [filterPriceMin, setFilterPriceMin] = useState(0)
     const [arrowPrice, setArrowPrice] = useState('price:asc')
-    const [arrowDate, setArrowDate] = useState('id:desc')
 
     let pages = []
     let categoryId = ''
@@ -22,11 +21,10 @@ const ProductNew = () => {
 
     useEffect(() => {
         fetch(BasicApi.searchProduct(
-            `size=4&categoryId=${categoryId}&page=${page}&search=${search}&priceMax=${filterPriceMax}&priceMin=${filterPriceMin}
-            &sort=${arrowPrice},${arrowDate}`).url)
+            `size=4&categoryId=${categoryId}&page=${page}&search=${search}&priceMax=${filterPriceMax}&priceMin=${filterPriceMin}&sort=${arrowPrice},id:desc`).url)
             .then((res) => res.json())
             .then((o) => setProduct(o));
-    }, [categoryId, page, search, filterPriceMax, filterPriceMin, arrowPrice, arrowDate]);
+    }, [categoryId, page, search, filterPriceMax, filterPriceMin, arrowPrice]);
 
     for (let i = 0; i < product.data.totalPages; i++) {
         pages.push(i)
@@ -54,19 +52,10 @@ const ProductNew = () => {
                 <label style={{marginTop: 10}}>Giá</label>
                 <input style={{marginLeft: 20}} type="radio" name="szGia" value="price:asc"
                        onChange={e => setArrowPrice(e.target.value)}/>
-                <i className="bi bi-arrow-up text-success"></i>
+                <i className="bi bi-arrow-up text-success"/>
                 <input style={{marginLeft: 20}} type="radio" name="szGia" value="price:desc"
                        onChange={e => setArrowPrice(e.target.value)}/>
-                <i className="bi bi-arrow-down text-danger"></i><br/>
-
-                <label style={{marginTop: 10}}>Ngày cập nhật</label>
-                <input style={{marginLeft: 20}} type="radio" name="szNgayCN" value="id:asc"
-                       onChange={e => setArrowDate(e.target.value)}/>
-                <i className="bi bi-arrow-up text-success"></i>
-                <input style={{marginLeft: 20}} type="radio" name="szNgayCN" value="id:desc"
-                       onChange={e => setArrowDate(e.target.value)}/>
-                <i className="bi bi-arrow-down text-danger"></i>
-
+                <i className="bi bi-arrow-down text-danger"/><br/>
             </div>
             <div className="col-md-9">
                 <div className="row">

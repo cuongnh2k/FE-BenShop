@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 const ProductCard = (props) => {
     return <Link to={`/product-detail?id=${props.product.id}`}>
@@ -12,7 +13,11 @@ const ProductCard = (props) => {
             <p className="card-text text-center text-truncate text-danger">
                 {props.product.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
             </p>
-            <p className="card-text"><small className="text-muted"></small></p>
+            <p className="card-text text-center">
+                <small className="text-muted">
+                    {moment(props.product.updatedDate).fromNow()}
+                </small>
+            </p>
         </div>
     </Link>
 }

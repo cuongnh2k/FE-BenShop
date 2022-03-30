@@ -5,7 +5,7 @@ import BasicApi from "../api/BasicApi";
 import {useEffect, useState} from "react";
 
 const PurchaseOrder = () => {
-
+document.title="Đơn mua"
     const [status, setStatus] = useState('status=PENDING')
     const [data, setData] = useState({message: null, success: null, data: {content: []}})
     const [page, setPage] = useState(0)
@@ -79,7 +79,7 @@ const PurchaseOrder = () => {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title"
-                                    id="exampleModalLabel">Tổng: {o.orderDetails.reduce((a, b) => a.money + b.money, 0)}</h5>
+                                    id="exampleModalLabel">Tổng: {o.orderDetails.map(i=>i.money).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
