@@ -3,9 +3,11 @@ import Domain from "../api/Domain";
 import UserApi from "../api/UserApi";
 import BasicApi from "../api/BasicApi";
 import {useEffect, useState} from "react";
+import EditOrderDetailNote from "../components/EditOrderDetailNote";
+import DeleteOrder from "../components/DeleteOrder";
 
 const PurchaseOrder = () => {
-document.title="Đơn mua"
+    document.title = "Đơn mua"
     const [status, setStatus] = useState('status=PENDING')
     const [data, setData] = useState({message: null, success: null, data: {content: []}})
     const [page, setPage] = useState(0)
@@ -57,6 +59,7 @@ document.title="Đơn mua"
             pages.push(i)
         }
     }
+
     return <main style={{marginTop: 120}}>
         <p style={{marginTop: 120}} className="text-warning">
             <Link to="/">Trang chủ</Link>/Đơn mua
@@ -71,15 +74,20 @@ document.title="Đơn mua"
         {data.data.content.map(o =>
             <ul key={o.id}>
                 <hr/>
-                <li className="text-primary" data-toggle="modal" data-target={`#OrderDetail${o.id}`}>Chi tiết</li>
-
-                <div className="modal fade" id={`OrderDetail${o.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel"
+                <li>
+                    <span className="text-primary" data-toggle="modal" data-target={`#OrderDetail${o.id}`}>
+                        Chi tiết
+                    </span>
+                    <DeleteOrder order={o}/>
+                </li>
+                <div className="modal fade" id={`OrderDetail${o.id}`} tabIndex="-1"
+                     aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title"
-                                    id="exampleModalLabel">Tổng: {o.orderDetails.map(i=>i.money).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</h5>
+                                    id="exampleModalLabel">Tổng: {o.orderDetails.map(i => i.money).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -104,11 +112,14 @@ document.title="Đơn mua"
                                                     tiền: {oo.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
                                                 </li>
                                                 <li>Yêu cầu:
-                                                    <ul>
-                                                        {oo.orderDetailNotes.map(ooo =>
-                                                            <li key={ooo.id}>Tạo bởi {ooo.createdBy}: {ooo.content}</li>
-                                                        )}
-                                                    </ul>
+                                                    {oo.orderDetailNotes.map(ooo =>
+                                                        <ul key={ooo.id}>
+                                                            <li>Người tạo: {ooo.createdBy}</li>
+                                                            <li>
+                                                                <EditOrderDetailNote orderDetailNote={ooo}/>
+                                                            </li>
+                                                        </ul>
+                                                    )}
                                                 </li>
                                             </ul>
                                         </div>
