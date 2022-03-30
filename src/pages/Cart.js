@@ -2,6 +2,8 @@ import {Link} from "react-router-dom";
 import {useState} from "react";
 import {useNotification} from "react-hook-notification";
 import Order from "../components/Order";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const Cart = () => {
     document.title = 'Giỏ hàng'
@@ -72,51 +74,56 @@ const Cart = () => {
         setListState(list1)
     }
 
-    return <main style={{marginTop: 120, minHeight: 500}}>
-        <p className="text-warning">
-            <div style={{marginBottom: 20}}>
-                <Link to="/">Trang chủ</Link>/Giỏ hàng
-            </div>
-        </p>
-        {listState.map(o =>
-            <div key={o.id} className="row text-secondary" style={{marginTop: 5}}>
-                <div className="col-sm-2">
-                    <Link to={`/product-detail?id=${o.id}`}>
-                        <img className="img-fluid" style={{maxHeight: 200, borderRadius: 5}} src={o.image} alt=""/>
-                    </Link>
+    return <>
+        <Header/>
+        <main style={{marginTop: 120, minHeight: 500}}>
+            <p className="text-warning">
+                <div style={{marginBottom: 20}}>
+                    <Link to="/">Trang chủ</Link>/Giỏ hàng
                 </div>
-                <div className="col-sm-10" style={{padding: 0, margin: 0}}>
-                    <ul>
-                        <li>Mã sản phẩm: <span>{o.id}</span></li>
-                        <li>Tên: <span>{o.name}</span></li>
-                        <li>Giá: <span>{o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></li>
-                        <li>Yêu cầu:
-                            <textarea onChange={(e) => handleDescription(o.id, e.target.value)}
-                                      className="form-control">{o.description}</textarea>
-                        </li>
-                        <li>
-                            Số lượng: <input type="number" className="form-control"
-                                             style={{maxWidth: 100, display: "inline", marginTop: 5}}
-                                             value={o.quantity}/>
-                            <i className="bi bi-plus-circle-fill text-success" style={{margin: "0 30px"}}
-                               onClick={() => handleQuantityCong(o.id)}/>
-                            <i className="bi bi-dash-circle-fill text-danger" onClick={() => handleQuantityTru(o.id)}/>
-                            <i className="bi bi-trash3-fill text-danger" style={{margin: "0 0 0 30px"}}
-                               onClick={() => handleQuantityXoa(o.id)}/>
-                        </li>
-                        <li>Thành tiền:
-                            <span> {o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} x {o.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} = {(o.money * o.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span>
-                        </li>
-                    </ul>
+            </p>
+            {listState.map(o =>
+                <div key={o.id} className="row text-secondary" style={{marginTop: 5}}>
+                    <div className="col-sm-2">
+                        <Link to={`/product-detail?id=${o.id}`}>
+                            <img className="img-fluid" style={{maxHeight: 200, borderRadius: 5}} src={o.image} alt=""/>
+                        </Link>
+                    </div>
+                    <div className="col-sm-10" style={{padding: 0, margin: 0}}>
+                        <ul>
+                            <li>Mã sản phẩm: <span>{o.id}</span></li>
+                            <li>Tên: <span>{o.name}</span></li>
+                            <li>Giá: <span>{o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></li>
+                            <li>Yêu cầu:
+                                <textarea onChange={(e) => handleDescription(o.id, e.target.value)}
+                                          className="form-control">{o.description}</textarea>
+                            </li>
+                            <li>
+                                Số lượng: <input type="number" className="form-control"
+                                                 style={{maxWidth: 100, display: "inline", marginTop: 5}}
+                                                 value={o.quantity}/>
+                                <i className="bi bi-plus-circle-fill text-success" style={{margin: "0 30px"}}
+                                   onClick={() => handleQuantityCong(o.id)}/>
+                                <i className="bi bi-dash-circle-fill text-danger"
+                                   onClick={() => handleQuantityTru(o.id)}/>
+                                <i className="bi bi-trash3-fill text-danger" style={{margin: "0 0 0 30px"}}
+                                   onClick={() => handleQuantityXoa(o.id)}/>
+                            </li>
+                            <li>Thành tiền:
+                                <span> {o.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} x {o.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} = {(o.money * o.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col-12">
+                        <hr/>
+                    </div>
                 </div>
-                <div className="col-12">
-                    <hr/>
-                </div>
-            </div>
-        )}
-        <h3 className="text-secondary">Tổng: <span
-            className="text-danger">{sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></h3>
-        <Order/>
-    </main>
+            )}
+            <h3 className="text-secondary">Tổng: <span
+                className="text-danger">{sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></h3>
+            <Order/>
+        </main>
+        <Footer/>
+    </>
 }
 export default Cart
