@@ -11,6 +11,18 @@ const UserApi = {
             url: `${base}/order?${params}`,
             method: 'GET'
         }
+    },
+    editOrderDetailNote: (id) => {
+        return {
+            url: `${base}/order/detail/note/${id}`,
+            method: 'PATCH'
+        }
+    },
+    deleteOrder: (id) => {
+        return {
+            url: `${base}/order/${id}`,
+            method: 'DELETE'
+        }
     }
 }
 export default UserApi
