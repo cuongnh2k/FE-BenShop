@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import BasicApi from "../api/BasicApi";
 import BlockCart from "./BlockCart";
+import Logout from "./Logout";
 
 const Header = () => {
     const [category, setCategory] = useState({message: null, success: null, data: []})
@@ -61,6 +62,7 @@ const Header = () => {
                     <div className="dropdown-menu">
                         <a className="dropdown-item" href="#">Tài khoản</a>
                         <Link className="dropdown-item" to="/purchase-order">Đơn mua</Link>
+                        <Logout/>
                     </div>
                 </li>
             </ul>

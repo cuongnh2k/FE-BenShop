@@ -23,6 +23,18 @@ const UserApi = {
             url: `${base}/order/${id}`,
             method: 'DELETE'
         }
+    },
+    logouts: (params) => {
+        return {
+            url: `${base}/device/logouts/${params}`,
+            method: 'DELETE'
+        }
+    },
+    logout: () => {
+        return {
+            url: `${base}/device/logout`,
+            method: 'DELETE'
+        }
     }
 }
 export default UserApi
