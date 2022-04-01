@@ -23,6 +23,13 @@ const UserApi = {
             url: `${base}/order/${id}`,
             method: 'DELETE'
         }
+    },
+    createCommentProduct:(id)=> {
+    return{
+        url:`${base}/product/${id}/comment`,
+        method:'POST'
     }
+
+}
 }
 export default UserApi
