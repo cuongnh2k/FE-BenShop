@@ -62,6 +62,7 @@ const Header = () => {
                     <div className="dropdown-menu">
                         <a className="dropdown-item" href="#">Tài khoản</a>
                         <Link className="dropdown-item" to="/purchase-order">Đơn mua</Link>
+                        <Link className="dropdown-item" to="/register">Đăng ký</Link>
                         <Logout/>
                     </div>
                 </li>
