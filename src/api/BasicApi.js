@@ -35,6 +35,12 @@ const BasicApi = {
             url: `${base}/product?${params}`,
             method: 'GET'
         }
+    },
+    resetPassword: () => {
+        return {
+            url: `${base}/auth/reset-password`,
+            method: 'POST'
+        }
     }
 }
 export default BasicApi

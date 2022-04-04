@@ -3,8 +3,10 @@ import {useState} from "react";
 import BasicApi from "../api/BasicApi";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import {Link} from "react-router-dom";
 
 const Login = () => {
+    document.title='Đăng nhập'
     const notification = useNotification();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -58,6 +60,10 @@ const Login = () => {
             </div>
             <div style={{width: 104, margin: "auto", marginTop: 40}}>
                 <button onClick={handleLogin} className="btn btn-primary">Đăng nhập</button>
+            </div>
+            <div style={{width: 350, margin: "auto", marginTop: 40}}>
+                <Link to="/register" style={{float: "left"}}>Đăng ký</Link>
+                <Link to="/reset-password" style={{float: "right"}}>Quên mật khẩu</Link>
             </div>
         </main>
         <Footer/>

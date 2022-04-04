@@ -24,12 +24,23 @@ const UserApi = {
             method: 'DELETE'
         }
     },
-    createCommentProduct:(id)=> {
-    return{
-        url:`${base}/product/${id}/comment`,
-        method:'POST'
+    createCommentProduct: (id) => {
+        return {
+            url: `${base}/product/${id}/comment`,
+            method: 'POST'
+        }
+    },
+    logouts: (params) => {
+        return {
+            url: `${base}/device/logouts/${params}`,
+            method: 'DELETE'
+        }
+    },
+    logout: () => {
+        return {
+            url: `${base}/device/logout`,
+            method: 'DELETE'
+        }
     }
-
-}
 }
 export default UserApi

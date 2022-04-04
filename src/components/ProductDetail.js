@@ -11,7 +11,7 @@ const ProductDetail = () => {
     const [path, setPath] = useState('')
     const [content, setContent] = useState('')
     const notification = useNotification()
-
+    const [productComment, setProduct_comment] =useState('')
     let productId = ''
     let location = useLocation()
     if (location.search !== '') {
@@ -20,11 +20,17 @@ const ProductDetail = () => {
         window.location = Domain + "/product"
     }
 
+    useEffect(() => {
+        fetch(BasicApi.getProductById(productId).url)
+            .then((res) => res.json())
+            .then((o) => setProduct(o));
+    }, [productId]);
+
     const handleComment = () => {
         if (content.length < 1) {
             notification.error({
                 text: 'Bình luận không được để trống'
-            })
+            })  `1`
         } else if (content.length >= 1) {
 
             if (localStorage.getItem('accessToken') == null) {
@@ -37,10 +43,7 @@ const ProductDetail = () => {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
                     },
-                    body: JSON.stringify(
-                        {content}
-                    )
-
+                    body: JSON.stringify({content: content})
                 })
                     .then(resp => resp.json())
                     .then(o => {
@@ -82,13 +85,6 @@ const ProductDetail = () => {
             }
         }
     }
-
-    useEffect(() => {
-        fetch(BasicApi.getProductById(productId).url)
-            .then((res) => res.json())
-            .then((o) => setProduct(o));
-    }, [productId]);
-
     document.title = product.data.name
 
     return <>
@@ -137,22 +133,22 @@ const ProductDetail = () => {
                     </button>
 
                     <div className="media">
-                            <div className="media-body">
-                                <h5 className="mt-0"></h5>
-                                <p>{content}</p>
+                        <div className="media-body">
+                            <h5 className="mt-0"></h5>
+                            <p>{}</p>
 
-                                {/*<div className="media mt-3">*/}
-                                {/*    <a className="mr-3" href="#">*/}
-                                {/*    </a>*/}
-                                {/*    <div className="media-body">*/}
-                                {/*        <h5 className="mt-0">Media heading</h5>*/}
-                                {/*        <p>Comment2</p>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                                <p>
-                                    <div> </div>
-                                </p>
-                            </div>
+                            {/*<div className="media mt-3">*/}
+                            {/*    <a className="mr-3" href="#">*/}
+                            {/*    </a>*/}
+                            {/*    <div className="media-body">*/}
+                            {/*        <h5 className="mt-0">Media heading</h5>*/}
+                            {/*        <p>Comment2</p>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
+                            <p>
+                                <div>{}</div>
+                            </p>
+                        </div>
                     </div>
 
                 </div>
