@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import BasicApi from "../../api/BasicApi";
 import AdminApi from "../../api/AdminApi";
 import Domain from "../../api/Domain";
+import AdminAddProductImage from "../../pages/admin/AdminAddProductImage";
+import AdminDeleteProductImage from "./AdminDeleteProductImage";
 
 const AdminProductDetail = (props) => {
     const [product, setProduct] = useState(props.product)
@@ -89,9 +91,7 @@ const AdminProductDetail = (props) => {
                                 <div className="row">
                                     <div className="col-sm-9">
                                         <ul>
-                                            <li>
-                                                <input type="file" onChange={(e) => console.log(e.target.value)}/>
-                                            </li>
+                                            <li><AdminAddProductImage product={product}/></li>
                                             <li style={{marginTop: 10}}>Mã sản phẩm: <a
                                                 href={`/product-detail?id=${product.id}`}>{product.id}</a>
                                             </li>
@@ -122,7 +122,7 @@ const AdminProductDetail = (props) => {
                                         {product.productImages.map(pi =>
                                             <div key={pi.id}>
                                                 <i className="bi bi-pencil-fill text-warning"/>
-                                                <i className="bi bi-trash2-fill text-danger" style={{marginLeft: 20}}/>
+                                                <AdminDeleteProductImage productImage={pi}/>
                                                 <img src={pi.path} className="img-thumbnail"
                                                      alt={product.name}/>
                                             </div>
