@@ -17,6 +17,12 @@ const AdminApi = {
             url: `${base}/category/${id}`,
             method: 'DELETE'
         }
+    },
+    editProduct: (id) => {
+        return {
+            url: `${base}/product/${id}`,
+            method: 'PATCH'
+        }
     }
 }
 export default AdminApi

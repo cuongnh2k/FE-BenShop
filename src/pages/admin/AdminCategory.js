@@ -37,7 +37,7 @@ const AdminCategory = () => {
     return <>
         <AdminHeader/>
         <main style={{marginTop: 120}}>
-            <p className="text-warning">Admin/Danh mục</p>
+            <p className="text-warning">Danh mục</p>
             <AdminAddCategory category={{id: null}}/>
             {category.data.map(o =>
                 <ul key={o.id}>
