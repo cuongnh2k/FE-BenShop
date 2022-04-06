@@ -30,6 +30,12 @@ const UserApi = {
             method: 'POST'
         }
     },
+    getCommentByProductId: (id) => {
+        return {
+            url: `${base}/product/${id}/comment`,
+            method: 'GET'
+        }
+    },
     logouts: (params) => {
         return {
             url: `${base}/device/logouts/${params}`,
