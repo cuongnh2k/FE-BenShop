@@ -2,8 +2,9 @@ import {useEffect, useState} from "react";
 import BasicApi from "../../api/BasicApi";
 import AdminApi from "../../api/AdminApi";
 import Domain from "../../api/Domain";
-import AdminAddProductImage from "../../pages/admin/AdminAddProductImage";
+import AdminAddProductImage from "./AdminAddProductImage";
 import AdminDeleteProductImage from "./AdminDeleteProductImage";
+import AdminEditProductImage from "./AdminEditProductImage";
 
 const AdminProductDetail = (props) => {
     const [product, setProduct] = useState(props.product)
@@ -41,7 +42,6 @@ const AdminProductDetail = (props) => {
         })
             .then(resp => resp.json())
             .then(o => {
-                    console.log(o.message)
                     if (o.success === false) {
                         if (o.errorCode === 401) {
                             if (localStorage.getItem('refreshToken') == null) {
@@ -69,11 +69,11 @@ const AdminProductDetail = (props) => {
                     }
                 }
             )
-    }, [name, price, discount, description, checked]);
+    }, [name, price, discount, description, checked, props.product.id]);
 
     return <>
-        <p className="text-primary" data-toggle="modal"
-           data-target={`#ChiTietProductAdmin${product.id}`}>Chi tiết</p>
+        <span className="text-primary" data-toggle="modal"
+           data-target={`#ChiTietProductAdmin${product.id}`}>Chi tiết</span>
         <div className="modal fade" id={`ChiTietProductAdmin${product.id}`} tabIndex="-1"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-xl">
@@ -121,7 +121,7 @@ const AdminProductDetail = (props) => {
                                     <div className="col-sm-3">
                                         {product.productImages.map(pi =>
                                             <div key={pi.id}>
-                                                <i className="bi bi-pencil-fill text-warning"/>
+                                                <AdminEditProductImage productImage={pi}/>
                                                 <AdminDeleteProductImage productImage={pi}/>
                                                 <img src={pi.path} className="img-thumbnail"
                                                      alt={product.name}/>
