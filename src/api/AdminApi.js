@@ -24,16 +24,51 @@ const AdminApi = {
             method: 'PATCH'
         }
     },
+    addProduct: () => {
+        return {
+            url: `${base}/product`,
+            method: 'POST'
+        }
+    },
+    deleteProduct: (id) => {
+        return {
+            url: `${base}/product/${id}`,
+            method: 'DELETE'
+        }
+    },
     addProductImage: (id) => {
         return {
             url: `${base}/product/${id}/image`,
             method: 'POST'
         }
     },
+    editProductImage: (id) => {
+        return {
+            url: `${base}/product/image/${id}`,
+            method: 'PATCH'
+        }
+    },
     deleteProductImage: (id) => {
         return {
             url: `${base}/product/image/${id}`,
             method: 'DELETE'
+        }
+    },
+    searchOrder: (params) => {
+        return {
+            url: `${base}/order?${params}`,
+            method: 'GET'
+        }
+    }, editOrderStatus: (id) => {
+        return {
+            url: `${base}/order/${id}/update-status`,
+            method: 'PATCH'
+        }
+    },
+    totalRevenue: (params) => {
+        return {
+            url: `${base}/order/total-revenue?${params}`,
+            method: 'GET'
         }
     }
 }

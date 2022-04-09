@@ -2,9 +2,10 @@ import AdminHeader from "../../components/admin/AdminHeader";
 import {useEffect, useState} from "react";
 import BasicApi from "../../api/BasicApi";
 import AdminProductDetail from "../../components/admin/AdminProductDetail";
-import {Link} from "react-router-dom";
 import Domain from "../../api/Domain";
 import jwt_decode from "jwt-decode";
+import AdminAddProduct from "../../components/admin/AdminAddProduct";
+import AdminDeleteProduct from "../../components/admin/AdminDeleteProduct";
 
 const AdminProduct = () => {
 
@@ -57,6 +58,7 @@ const AdminProduct = () => {
                     <input onChange={e => setSearch(e.target.value)} className="form-control" placeholder="Tìm kiếm"/>
                     <p style={{marginTop: 30}}>Danh mục</p>
                     <select className="form-control" onChange={e => setCategoryId(e.target.value)}>
+                        <option value=''>{''}</option>
                         {listCategory.data.map(o =>
                             <option key={o.id} value={o.id}>{o.name}</option>
                         )}
@@ -65,9 +67,11 @@ const AdminProduct = () => {
                 <div className="col-sm-9">
                     <ul>
                         <li><h3>Tổng số: {product.data.totalElements} sản phẩm</h3></li>
+                        <AdminAddProduct category={listCategory}/>
                         {product.data.content.map(o =>
                             <li key={o.id}>
                                 <AdminProductDetail product={o} category={listCategory}/>
+                                <AdminDeleteProduct product={o}/>
                                 <p>Mã sản phẩm: <a href={`/product-detail?id=${o.id}`}>{o.id}</a></p>
                                 <p>Tên: {o.name}</p>
                                 <p>Ngày cập nhật: {new Date(o.updatedDate).toLocaleString()}</p>
