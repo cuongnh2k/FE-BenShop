@@ -138,8 +138,6 @@ const PurchaseOrder = () => {
                     </div>
 
                     <li>Mã đơn hàng: {o.id}</li>
-                    <li>Trạng
-                        thái: {(o.status === 'PENDING') ? 'Chờ xác nhận' : (o.status === 'RESOLVED' ? 'Đã xác nhận' : (o.status === 'COMPLETED' ? 'Giao thành công' : 'Đã hủy'))}</li>
                     <li>Ngày cập nhật: {new Date(o.updatedDate).toLocaleString()}</li>
                 </ul>
             )}

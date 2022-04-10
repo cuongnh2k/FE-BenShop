@@ -7,6 +7,7 @@ import BasicApi from "../../api/BasicApi";
 import AdminEditOrderStatus from "../../components/admin/AdminEditOrderStatus";
 
 const AdminOrder = () => {
+    document.title='Quản lý đơn hàng'
     const check_arr = (arr) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === 'ROLE_ADMIN') {

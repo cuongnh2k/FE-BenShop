@@ -6,12 +6,19 @@ import Logout from "./Logout";
 
 const Header = () => {
     const [category, setCategory] = useState({message: null, success: null, data: []})
+    const [boole, setBoole] = useState(false)
 
     useEffect(() => {
         fetch(BasicApi.getAllCategory('structure=true').url)
             .then((res) => res.json())
             .then((o) => setCategory(o));
     }, []);
+
+    useEffect(() => {
+        window.addEventListener('emitToken', ({detail}) => {
+            setBoole(detail !== null)
+        })
+    }, [boole]);
 
     return <header>
         <nav className="fixed-top container">
@@ -62,8 +69,9 @@ const Header = () => {
                     <div className="dropdown-menu">
                         <a className="dropdown-item" href="#">Tài khoản</a>
                         <Link className="dropdown-item" to="/purchase-order">Đơn mua</Link>
-                        <Link className="dropdown-item" to="/register">Đăng ký</Link>
-                        <Logout/>
+                        {!boole ? <Link className="dropdown-item" to="/register">Đăng ký</Link> : ''}
+                        {boole ? <Logout/> : ''}
+                        {!boole ? <Link className="dropdown-item" to="/login">Đăng nhập</Link> : ''}
                     </div>
                 </li>
             </ul>

@@ -8,7 +8,7 @@ import AdminAddCategory from "../../components/admin/AdminAddCategory";
 import AdminDeleteCategory from "../../components/admin/AdminDeleteCategory";
 
 const AdminCategory = () => {
-
+    document.title='Quản lý danh mục'
     const [category, setCategory] = useState({message: null, success: null, data: []})
 
     const check_arr = (arr) => {
@@ -36,7 +36,7 @@ const AdminCategory = () => {
 
     return <>
         <AdminHeader/>
-        <main style={{marginTop: 120}}>
+        <main style={{margin: "120px 0"}}>
             <p className="text-warning">Danh mục</p>
             <AdminAddCategory category={{id: null}}/>
             {category.data.map(o =>

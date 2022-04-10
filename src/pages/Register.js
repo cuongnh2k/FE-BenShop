@@ -91,8 +91,9 @@ const Register = () => {
             <div style={{width: 84, margin: "auto", marginTop: 40}}>
                 <button onClick={handleRegister} className="btn btn-primary">Đăng ký</button>
             </div>
-            <div style={{width: 109, margin: "auto", marginTop: 40}}>
-                <Link to="/reset-password" style={{textAlign: "center"}}>Quên mật khẩu</Link>
+            <div style={{width: 350, margin: "auto", marginTop: 40}}>
+                <Link to="/login" style={{float: "left"}}>Đăng nhập</Link>
+                <Link to="/reset-password" style={{float: "right"}}>Quên mật khẩu</Link>
             </div>
         </main>
         <Footer/>

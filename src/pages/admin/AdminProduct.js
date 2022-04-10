@@ -8,7 +8,7 @@ import AdminAddProduct from "../../components/admin/AdminAddProduct";
 import AdminDeleteProduct from "../../components/admin/AdminDeleteProduct";
 
 const AdminProduct = () => {
-
+    document.title='Quản lý sản phẩm'
     const check_arr = (arr) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === 'ROLE_ADMIN') {
