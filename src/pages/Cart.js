@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNotification} from "react-hook-notification";
 import Order from "../components/Order";
 import Footer from "../components/Footer";
@@ -8,11 +8,13 @@ import Header from "../components/Header";
 const Cart = () => {
     document.title = 'Giỏ hàng'
     const notification = useNotification();
+
     let storage = localStorage.getItem('storage')
     let list
     let sum = 0
     if (storage != null) {
         list = JSON.parse(storage)
+        // eslint-disable-next-line array-callback-return
         list.map(o => {
             sum += o.money * o.quantity
         })
@@ -20,6 +22,14 @@ const Cart = () => {
         list = []
     }
     const [listState, setListState] = useState(list)
+
+    const handleEmitCart = ({detail}) => {
+        setListState(detail !== null ? JSON.parse(detail) : [])
+    }
+
+    useEffect(() => {
+        window.addEventListener('emitCart', handleEmitCart)
+    }, [])
 
     const handleDescription = (id, description) => {
         let list = JSON.parse(localStorage.getItem('storage'))
@@ -72,6 +82,7 @@ const Cart = () => {
         let list1 = list.filter(o => o.id !== id)
         localStorage.setItem('storage', JSON.stringify(list1))
         setListState(list1)
+        notification.success({text: `Xóa sản phẩm có mã ${id} thành công`})
     }
 
     return <>
@@ -119,9 +130,11 @@ const Cart = () => {
                     </div>
                 </div>
             )}
-            <h3 className="text-secondary">Tổng: <span
-                className="text-danger">{sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></h3>
-            <Order/>
+            {listState.length !== 0 ? <>
+                <h3 className="text-secondary">Tổng: <span
+                    className="text-danger">{sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span></h3>
+                <Order/>
+            </> : <h3 className="text-center text-warning">Không có sản phẩm trong giỏ hàng</h3>}
         </main>
         <Footer/>
     </>

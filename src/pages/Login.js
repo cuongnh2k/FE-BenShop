@@ -4,9 +4,10 @@ import BasicApi from "../api/BasicApi";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {Link} from "react-router-dom";
+import Domain from "../api/Domain";
 
 const Login = () => {
-    document.title='Đăng nhập'
+    document.title = 'Đăng nhập'
     const notification = useNotification();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -39,8 +40,8 @@ const Login = () => {
                     } else {
                         localStorage.setItem('accessToken', o.data.accessToken)
                         localStorage.setItem('refreshToken', o.data.refreshToken)
-                        // eslint-disable-next-line no-restricted-globals
-                        history.back()
+
+                        window.location = Domain
                     }
                 })
         }

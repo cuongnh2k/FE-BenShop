@@ -5,18 +5,19 @@ const BlockCart = () => {
 
     const [storage, setStorage] = useState()
 
+    const handleEmitCart = ({detail}) => {
+        setStorage(detail != null ? JSON.parse(detail).length : 0)
+    }
+
     useEffect(() => {
-        if (localStorage.getItem('storage') != null) {
-            setStorage(JSON.parse(localStorage.getItem('storage')).length)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [localStorage.getItem('storage')]);
+        window.addEventListener('emitCart', handleEmitCart)
+    }, [storage]);
 
     return <li className="nav-item">
         <Link className="nav-link" to="/cart" style={{position: "relative"}}>
             <i className="bi bi-cart"/>
             <i style={{position: "absolute", bottom: 20, color: "red"}}>
-                <b>{storage}</b>
+                <b>{storage !== 0 ? storage : ''}</b>
             </i>
         </Link>
     </li>

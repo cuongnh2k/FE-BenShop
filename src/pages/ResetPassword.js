@@ -52,8 +52,9 @@ const ResetPassword = () => {
             <div style={{width: 142, margin: "auto", marginTop: 40}}>
                 <button onClick={handleLogin} className="btn btn-primary">Đặt lại mật khẩu</button>
             </div>
-            <div style={{width: 58, margin: "auto", marginTop: 40}}>
-                <Link to="/register" style={{float: "left"}}>Đăng ký</Link>
+            <div style={{width: 350, margin: "auto", marginTop: 40}}>
+                <Link to="/login" style={{float: "left"}}>Đăng nhập</Link>
+                <Link to="/register" style={{float: "right"}}>Đăng ký</Link>
             </div>
         </main>
         <Footer/>

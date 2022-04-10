@@ -56,6 +56,7 @@ const AddToCart = (props) => {
 
     return <>
         <h2>{props.product.data.name}</h2>
+        <p>Mã sản phẩm: {props.product.data.id}</p>
         <p>
             <del
                 className="text-secondary">{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </del>

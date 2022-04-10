@@ -5,6 +5,22 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 
+const emitNotification = () => {
+    setInterval(() => {
+        window.dispatchEvent(
+            new CustomEvent(`emitCart`, {
+                detail: localStorage.getItem('storage')
+            })
+        )
+        window.dispatchEvent(
+            new CustomEvent(`emitToken`, {
+                detail: localStorage.getItem('accessToken')
+            })
+        )
+    }, 0)
+}
+emitNotification()
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
