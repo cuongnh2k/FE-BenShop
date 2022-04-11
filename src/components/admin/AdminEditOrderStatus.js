@@ -1,27 +1,26 @@
-import EditOrderDetailNote from "../EditOrderDetailNote";
 import {useEffect, useState} from "react";
 import AdminApi from "../../api/AdminApi";
 import Domain from "../../api/Domain";
 import BasicApi from "../../api/BasicApi";
+import EditOrderDetailNote from "../EditOrderDetailNote";
+import {useNotification} from "react-hook-notification";
+import AdminAddNote from "./AdminAddNote";
+import AdminDeleteNote from "./AdminDeleteNote";
 
 const AdminEditOrderStatus = (props) => {
-
-    const [status, setStatus] = useState(props.order.status)
-    console.log(status)
+    const notification = useNotification()
+    const [order, setOrder] = useState({message: null, success: null, data: {orderDetails: []}})
 
     useEffect(() => {
         if (localStorage.getItem('accessToken') != null) {
-            fetch(AdminApi.editOrderStatus(props.order.id).url, {
-                method: AdminApi.editOrderStatus(props.order.id).method,
+            fetch(AdminApi.getOrderById(props.order.id).url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-                },
-                body: JSON.stringify({status: status})
+                }
             })
                 .then(resp => resp.json())
                 .then(o => {
-                        console.log(o.message)
                         if (o.success === false) {
                             if (o.errorCode === 401) {
                                 if (localStorage.getItem('refreshToken') == null) {
@@ -37,7 +36,7 @@ const AdminEditOrderStatus = (props) => {
                                         .then(resp => resp.json())
                                         .then(oo => {
                                             if (oo.success === false) {
-                                                document.location = window.location = Domain + "/login"
+                                                window.location = Domain + "/login"
                                             } else {
                                                 localStorage.setItem('accessToken', oo.data.accessToken)
                                                 localStorage.setItem('refreshToken', oo.data.refreshToken)
@@ -45,53 +44,134 @@ const AdminEditOrderStatus = (props) => {
                                             }
                                         })
                                 }
-                            } else {
-                                setStatus(props.order.status)
                             }
+                        } else {
+                            setOrder(o)
                         }
                     }
                 )
-        } else {
-            setStatus(props.order.status)
         }
-    }, [props, status]);
+    }, [props]);
+
+    const handleReload = () => {
+        if (localStorage.getItem('accessToken') != null) {
+            fetch(AdminApi.getOrderById(props.order.id).url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+                .then(resp => resp.json())
+                .then(o => {
+                        if (o.success === false) {
+                            if (o.errorCode === 401) {
+                                if (localStorage.getItem('refreshToken') == null) {
+                                    window.location = Domain + "/login"
+                                } else {
+                                    fetch(BasicApi.refreshToken().url, {
+                                        method: BasicApi.refreshToken().method,
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
+                                        }
+                                    })
+                                        .then(resp => resp.json())
+                                        .then(oo => {
+                                            if (oo.success === false) {
+                                                window.location = Domain + "/login"
+                                            } else {
+                                                localStorage.setItem('accessToken', oo.data.accessToken)
+                                                localStorage.setItem('refreshToken', oo.data.refreshToken)
+                                                AdminEditOrderStatus(props)
+                                            }
+                                        })
+                                }
+                            }
+                        } else {
+                            setOrder(o)
+                        }
+                    }
+                )
+        }
+    }
+
+    const handleEditStatus = (e) => {
+        fetch(AdminApi.editOrderStatus(order.data.id).url, {
+            method: AdminApi.editOrderStatus(order.data.id).method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+            body: JSON.stringify({status: e})
+        })
+            .then(resp => resp.json())
+            .then(o => {
+                    if (o.success === false) {
+                        if (o.errorCode === 401) {
+                            if (localStorage.getItem('refreshToken') == null) {
+                                window.location = Domain + "/login"
+                            } else {
+                                fetch(BasicApi.refreshToken().url, {
+                                    method: BasicApi.refreshToken().method,
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
+                                    }
+                                })
+                                    .then(resp => resp.json())
+                                    .then(oo => {
+                                        if (oo.success === false) {
+                                            document.location = window.location = Domain + "/login"
+                                        } else {
+                                            localStorage.setItem('accessToken', oo.data.accessToken)
+                                            localStorage.setItem('refreshToken', oo.data.refreshToken)
+                                            handleEditStatus(e)
+                                        }
+                                    })
+                            }
+                        }
+                        notification.error({text: o.message})
+                    } else {
+                        notification.success({text: 'Cập nhật trạng thái thành công'})
+                    }
+                }
+            )
+    }
 
     return <>
         <span className="text-primary" data-toggle="modal"
-              data-target={`#chiTietOrder${props.order.id}`}>Chi tiết</span>
+              data-target={`#chiTietOrder${order.data.id}`}>Chi tiết</span>
 
-        <div className="modal fade" id={`chiTietOrder${props.order.id}`} tabIndex="-1"
+        <div className="modal fade" id={`chiTietOrder${order.data.id}`} tabIndex="-1"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel">
-                            Tổng: {props.order.orderDetails.map(i => i.money).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
+                            Tổng: {order.data.orderDetails.map(i => i.money).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
                             <select className="form-control" style={{maxWidth: 300, margin: "10px 0"}}
-                                    onChange={e =>
-                                        setStatus(e.target.value === 'Chờ xử lý' ? 'PENDING' : (e.target.value === 'Đã xử lý' ? 'RESOLVED' : (e.target.value === 'Giao thành công' ? 'COMPLETED' : 'CANCELED')))
-                                    }>
-                                <option defaultValue="PENDING" selected={status === 'PENDING'}>
+                                    onChange={e => handleEditStatus(e.target.value)}>
+                                <option value="PENDING" selected={order.data.status === 'PENDING'}>
                                     Chờ xử lý
                                 </option>
-                                <option defaultValue="RESOLVED" selected={status === 'RESOLVED'}>
+                                <option value="RESOLVED" selected={order.data.status === 'RESOLVED'}>
                                     Đã xử lý
                                 </option>
-                                <option defaultValue="COMPLETED" selected={status === 'COMPLETED'}>
+                                <option value="COMPLETED" selected={order.data.status === 'COMPLETED'}>
                                     Giao thành công
                                 </option>
-                                <option defaultValue="CANCELED" selected={status === 'CANCELED'}>
+                                <option value="CANCELED" selected={order.data.status === 'CANCELED'}>
                                     Hủy bỏ
                                 </option>
                             </select>
-                            Mã đơn hàng: {props.order.id}
+                            Mã đơn hàng: {order.data.id}
                         </h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
-                        {props.order.orderDetails.map(oo =>
+                        {order.data.orderDetails.map(oo =>
                             <div key={oo.id} className="row text-secondary" style={{marginTop: 5}}>
                                 <div className="col-sm-2">
                                     <a href={`/product-detail?id=${oo.product.id}`}>
@@ -109,13 +189,14 @@ const AdminEditOrderStatus = (props) => {
                                         <li>Thành
                                             tiền: {oo.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
                                         </li>
-                                        <li>Yêu cầu:
+                                        <li>Ghi chú: <AdminAddNote orderDetail={oo} onReload={handleReload}/>
                                             {oo.orderDetailNotes.map(ooo =>
                                                 <ul key={ooo.id}>
                                                     <li>Người tạo: {ooo.createdBy}</li>
                                                     <li>
                                                         <EditOrderDetailNote orderDetailNote={ooo}/>
                                                     </li>
+                                                    <AdminDeleteNote note={ooo} onReload={handleReload}/>
                                                 </ul>
                                             )}
                                         </li>

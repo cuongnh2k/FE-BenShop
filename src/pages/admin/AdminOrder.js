@@ -7,7 +7,7 @@ import BasicApi from "../../api/BasicApi";
 import AdminEditOrderStatus from "../../components/admin/AdminEditOrderStatus";
 
 const AdminOrder = () => {
-    document.title='Quản lý đơn hàng'
+    document.title = 'Quản lý đơn hàng'
     const check_arr = (arr) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === 'ROLE_ADMIN') {
@@ -29,13 +29,14 @@ const AdminOrder = () => {
     const [startTime, setStartTime] = useState(0)
     const [endTime, setEndTime] = useState(Date.now)
     const [totalRevenue, setTotalRevenue] = useState(0)
+    const [orderId, setOrderId] = useState('')
     const [order, setOrder] = useState({message: null, success: null, data: {content: [], totalPages: null}})
     const [page, setPage] = useState(0)
     let pages = []
 
     useEffect(() => {
         if (localStorage.getItem('accessToken') != null) {
-            fetch(AdminApi.totalRevenue(`status=${status}&startTime=${startTime}&endTime=${endTime}`).url, {
+            fetch(AdminApi.totalRevenue(`status=${status}&startTime=${startTime}&endTime=${endTime}&orderId=${orderId}`).url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
@@ -74,11 +75,11 @@ const AdminOrder = () => {
                     }
                 )
         }
-    }, [status, startTime, endTime]);
+    }, [status, startTime, endTime, orderId]);
 
     useEffect(() => {
         if (localStorage.getItem('accessToken') != null) {
-            fetch(AdminApi.searchOrder(`size=5&page=${page}&status=${status}&startTime=${startTime}&endTime=${endTime}`).url, {
+            fetch(AdminApi.searchOrder(`size=5&page=${page}&status=${status}&startTime=${startTime}&endTime=${endTime}&orderId=${orderId}`).url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
@@ -117,7 +118,7 @@ const AdminOrder = () => {
                     }
                 )
         }
-    }, [status, startTime, endTime, page]);
+    }, [status, startTime, endTime, page, orderId]);
 
     for (let i = 0; i < order.data.totalPages; i++) {
         pages.push(i)
@@ -131,6 +132,7 @@ const AdminOrder = () => {
                 <div className="col-sm-3 border-right">
                     <label htmlFor="trangThai">Trạng thái</label>
                     <select className="form-control" id="trangThai" onChange={e => setStatus(e.target.value)}>
+                        <option value="">Tất cả</option>
                         <option value="PENDING">Chờ xử lý</option>
                         <option value="RESOLVED">Đã xử lý</option>
                         <option value="COMPLETED">Giao thành công</option>
@@ -142,6 +144,8 @@ const AdminOrder = () => {
                     <label htmlFor="den">Đến</label>
                     <input type="datetime-local" id="den" className="form-control"
                            onChange={e => setEndTime(Date.parse(e.target.value))}/>
+                    <input placeholder="Mã đơn hàng" style={{marginTop: 30}} className="form-control"
+                           onChange={e => setOrderId(e.target.value)}/>
                 </div>
                 <div className="col-sm-9">
                     <h3>Tổng: {totalRevenue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</h3>
@@ -152,6 +156,8 @@ const AdminOrder = () => {
                                 <AdminEditOrderStatus order={o}/>
                             </li>
                             <li>Mã đơn hàng: {o.id}</li>
+                            <li>Trạng
+                                thái: {o.status === 'PENDING' ? 'Chờ xử lý' : (o.status === 'RESOLVED' ? 'Đã xử lý' : (o.status === 'COMPLETED' ? 'Giao thành công' : 'Đã hủy'))}</li>
                             <li>Ngày cập nhật: {new Date(o.updatedDate).toLocaleString()}</li>
                         </ul>
                     )}

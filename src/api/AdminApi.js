@@ -64,11 +64,29 @@ const AdminApi = {
             url: `${base}/order/${id}/update-status`,
             method: 'PATCH'
         }
+    }
+    , getOrderById: (id) => {
+        return {
+            url: `${base}/order/${id}`,
+            method: 'GET'
+        }
     },
     totalRevenue: (params) => {
         return {
             url: `${base}/order/total-revenue?${params}`,
             method: 'GET'
+        }
+    },
+    addNote: (id) => {
+        return {
+            url: `${base}/order/detail/${id}/note`,
+            method: 'POST'
+        }
+    },
+    deleteNote: (id) => {
+        return {
+            url: `${base}/order/detail/note/${id}`,
+            method: 'DELETE'
         }
     }
 }
