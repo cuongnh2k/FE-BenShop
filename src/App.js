@@ -10,7 +10,6 @@ import AdminOrder from "./pages/admin/AdminOrder";
 import AdminProduct from "./pages/admin/AdminProduct";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
-import AdminUser from "./pages/admin/AdminUser";
 
 const App = () => {
     return <>
@@ -26,7 +25,6 @@ const App = () => {
             <Route path='/admin/category' element={<AdminCategory/>}/>
             <Route path='/admin/order' element={<AdminOrder/>}/>
             <Route path='/admin/product' element={<AdminProduct/>}/>
-            <Route path='/admin/user' element={<AdminUser/>}/>
         </Routes>
     </>
 }

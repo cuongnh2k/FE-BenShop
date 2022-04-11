@@ -51,7 +51,7 @@ const AdminEditCategory = (props) => {
         } else {
             setCategory(props.category.name)
         }
-    }, [category]);
+    }, [category, props]);
 
     return <input className="form-control" value={category} onChange={e => setCategory(e.target.value)}
                   style={{marginTop: 20}}/>

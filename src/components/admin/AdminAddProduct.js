@@ -2,8 +2,10 @@ import {useState} from "react";
 import AdminApi from "../../api/AdminApi";
 import Domain from "../../api/Domain";
 import BasicApi from "../../api/BasicApi";
+import {useNotification} from "react-hook-notification";
 
 const AdminAddProduct = (props) => {
+    const notification = useNotification()
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [discount, setDiscount] = useState(0)
@@ -20,52 +22,59 @@ const AdminAddProduct = (props) => {
     }
 
     const submit = () => {
-        fetch(AdminApi.addProduct().url, {
-            method: AdminApi.addProduct().method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-            },
-            body: JSON.stringify({
-                name: name,
-                price: price,
-                discount: discount,
-                description: description,
-                categories: checked.toString()
+        if (name.length < 1) {
+            notification.error({text: "Tên sản phẩm không được để trống"})
+        } else if (checked.length < 1) {
+            notification.error({text: "Chưa chọn danh mục của sản phẩm"})
+        } else {
+            fetch(AdminApi.addProduct().url, {
+                method: AdminApi.addProduct().method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+                },
+                body: JSON.stringify({
+                    name: name,
+                    price: price,
+                    discount: discount,
+                    description: description,
+                    categories: checked.toString()
+                })
             })
-        })
-            .then(resp => resp.json())
-            .then(o => {
-                    if (o.success === false) {
-                        if (o.errorCode === 401) {
-                            if (localStorage.getItem('refreshToken') == null) {
-                                window.location = Domain + "/login"
-                            } else {
-                                fetch(BasicApi.refreshToken().url, {
-                                    method: BasicApi.refreshToken().method,
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
-                                    }
-                                })
-                                    .then(resp => resp.json())
-                                    .then(oo => {
-                                        if (oo.success === false) {
-                                            document.location = window.location = Domain + "/login"
-                                        } else {
-                                            localStorage.setItem('accessToken', oo.data.accessToken)
-                                            localStorage.setItem('refreshToken', oo.data.refreshToken)
-                                            AdminAddProduct()
+                .then(resp => resp.json())
+                .then(o => {
+                        if (o.success === false) {
+                            if (o.errorCode === 401) {
+                                if (localStorage.getItem('refreshToken') == null) {
+                                    window.location = Domain + "/login"
+                                } else {
+                                    fetch(BasicApi.refreshToken().url, {
+                                        method: BasicApi.refreshToken().method,
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
                                         }
                                     })
+                                        .then(resp => resp.json())
+                                        .then(oo => {
+                                            if (oo.success === false) {
+                                                document.location = window.location = Domain + "/login"
+                                            } else {
+                                                localStorage.setItem('accessToken', oo.data.accessToken)
+                                                localStorage.setItem('refreshToken', oo.data.refreshToken)
+                                                AdminAddProduct()
+                                            }
+                                        })
+                                }
                             }
+                            notification.error({text: o.message})
+                        } else {
+                            notification.success({text: 'Thêm sản phẩm thành công'})
+                            props.onReload()
                         }
-                    } else {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.reload()
                     }
-                }
-            )
+                )
+        }
     }
 
     return <>

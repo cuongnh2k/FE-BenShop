@@ -20,9 +20,6 @@ const AdminHeader = () => {
                 <li className="nav-item">
                     <Link className="nav-link" to="/admin/order">Đơn hàng</Link>
                 </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/admin/user">Người dùng</Link>
-                </li>
             </ul>
         </nav>
     </header>

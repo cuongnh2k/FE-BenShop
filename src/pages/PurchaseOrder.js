@@ -62,6 +62,44 @@ const PurchaseOrder = () => {
         }
     }
 
+    let onReloadHandle = () => {
+        fetch(UserApi.searchOrder(`${status}&size=5&page=${page}`).url, {
+            method: UserApi.searchOrder(status).method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+        })
+            .then(resp => resp.json())
+            .then(o => {
+                    if (o.success === false) {
+                        if (localStorage.getItem('refreshToken') == null) {
+                            window.location = Domain + "/login"
+                        } else {
+                            fetch(BasicApi.refreshToken().url, {
+                                method: BasicApi.refreshToken().method,
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
+                                }
+                            })
+                                .then(resp => resp.json())
+                                .then(oo => {
+                                    if (oo.success === false) {
+                                        document.location = window.location = Domain + "/login"
+                                    } else {
+                                        localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
+                                        localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
+                                        PurchaseOrder()
+                                    }
+                                })
+                        }
+                    } else {
+                        setData(o)
+                    }
+                }
+            )
+    };
     return <>
         <Header/>
         <main style={{marginTop: 120}}>
@@ -82,7 +120,7 @@ const PurchaseOrder = () => {
                     <span className="text-primary" data-toggle="modal" data-target={`#OrderDetail${o.id}`}>
                         Chi tiết
                     </span>
-                        <DeleteOrder order={o}/>
+                        <DeleteOrder order={o} onReload={onReloadHandle}/>
                     </li>
                     <div className="modal fade" id={`OrderDetail${o.id}`} tabIndex="-1"
                          aria-labelledby="exampleModalLabel"

@@ -48,8 +48,8 @@ const DeleteOrder = (props) => {
                             }
                         } else {
                             notification.success({text: 'Hủy đơn hàng thành công'})
-                            // eslint-disable-next-line no-restricted-globals
-                            location.reload()
+                            props.onReload()
+
                         }
                     }
                 )

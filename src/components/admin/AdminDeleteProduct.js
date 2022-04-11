@@ -1,10 +1,12 @@
 import AdminApi from "../../api/AdminApi";
 import Domain from "../../api/Domain";
 import BasicApi from "../../api/BasicApi";
+import {useNotification} from "react-hook-notification";
 
 const AdminDeleteProduct = (props) => {
+    const notification = useNotification()
 
-    const deleteProduct=()=>{
+    const deleteProduct = () => {
         fetch(AdminApi.deleteProduct(props.product.id).url, {
             method: AdminApi.deleteProduct(props.product.id).method,
             headers: {
@@ -38,9 +40,10 @@ const AdminDeleteProduct = (props) => {
                                     })
                             }
                         }
+                        notification.error({text: o.message})
                     } else {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.reload()
+                        notification.success({text: 'Xóa sản phẩm thành công'})
+                        props.onReload()
                     }
                 }
             )
@@ -48,7 +51,7 @@ const AdminDeleteProduct = (props) => {
 
     return <>
         <span style={{marginLeft: 20}} className="text-danger" data-toggle="modal"
-           data-target={`#xoaProductAdmin${props.product.id}`} onClick={deleteProduct}>Xóa</span>
+              data-target={`#xoaProductAdmin${props.product.id}`} onClick={deleteProduct}>Xóa</span>
     </>
 }
 export default AdminDeleteProduct
