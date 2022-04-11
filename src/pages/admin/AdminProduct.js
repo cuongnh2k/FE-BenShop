@@ -8,7 +8,7 @@ import AdminAddProduct from "../../components/admin/AdminAddProduct";
 import AdminDeleteProduct from "../../components/admin/AdminDeleteProduct";
 
 const AdminProduct = () => {
-    document.title='Quản lý sản phẩm'
+    document.title = 'Quản lý sản phẩm'
     const check_arr = (arr) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === 'ROLE_ADMIN') {
@@ -31,6 +31,7 @@ const AdminProduct = () => {
     const [categoryId, setCategoryId] = useState('')
     const [page, setPage] = useState(0)
     const [search, setSearch] = useState('')
+    const [productId, setProductId] = useState('')
     let pages = []
 
     useEffect(() => {
@@ -40,10 +41,18 @@ const AdminProduct = () => {
     }, []);
 
     useEffect(() => {
-        fetch(BasicApi.searchProduct(`size=5&categoryId=${categoryId}&page=${page}&search=${search}`).url)
+        fetch(BasicApi.searchProduct(
+            `size=5&categoryId=${categoryId}&page=${page}&search=${search}&productId=${productId}`).url)
             .then((res) => res.json())
             .then((o) => setProduct(o));
-    }, [categoryId, page, search]);
+    }, [categoryId, page, search, productId]);
+
+    const handleReload = () => {
+        fetch(BasicApi.searchProduct(
+            `size=5&categoryId=${categoryId}&page=${page}&search=${search}&productId=${productId}`).url)
+            .then((res) => res.json())
+            .then((o) => setProduct(o));
+    }
 
     for (let i = 0; i < product.data.totalPages; i++) {
         pages.push(i)
@@ -63,15 +72,18 @@ const AdminProduct = () => {
                             <option key={o.id} value={o.id}>{o.name}</option>
                         )}
                     </select>
+                    <input className="form-control" style={{marginTop: 30}} placeholder="Mã sản phẩm"
+                           onChange={e => setProductId(e.target.value)}/>
                 </div>
                 <div className="col-sm-9">
                     <ul>
                         <li><h3>Tổng số: {product.data.totalElements} sản phẩm</h3></li>
-                        <AdminAddProduct category={listCategory}/>
+                        <AdminAddProduct category={listCategory} onReload={handleReload}/>
+                        <hr/>
                         {product.data.content.map(o =>
                             <li key={o.id}>
                                 <AdminProductDetail product={o} category={listCategory}/>
-                                <AdminDeleteProduct product={o}/>
+                                <AdminDeleteProduct product={o} onReload={handleReload}/>
                                 <p>Mã sản phẩm: <a href={`/product-detail?id=${o.id}`}>{o.id}</a></p>
                                 <p>Tên: {o.name}</p>
                                 <p>Ngày cập nhật: {new Date(o.updatedDate).toLocaleString()}</p>

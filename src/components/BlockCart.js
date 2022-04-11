@@ -5,12 +5,10 @@ const BlockCart = () => {
 
     const [storage, setStorage] = useState()
 
-    const handleEmitCart = ({detail}) => {
-        setStorage(detail != null ? JSON.parse(detail).length : 0)
-    }
-
     useEffect(() => {
-        window.addEventListener('emitCart', handleEmitCart)
+        window.addEventListener('emitCart', ({detail}) => {
+            setStorage(detail != null ? JSON.parse(detail).length : 0)
+        })
     }, [storage]);
 
     return <li className="nav-item">

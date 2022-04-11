@@ -7,51 +7,54 @@ import BasicApi from "../../api/BasicApi";
 const AdminAddCategory = (props) => {
 
     const notification = useNotification()
-    const [category, setCategory] = useState()
+    const [category, setCategory] = useState('')
 
     const handleAdd = () => {
-        fetch(AdminApi.addCategory().url, {
-            method: AdminApi.addCategory().method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-            },
-            body: JSON.stringify({name: category, parentId: props.category.id})
-        })
-            .then(resp => resp.json())
-            .then(o => {
-                    if (o.success === false) {
-                        if (o.errorCode === 401) {
-                            if (localStorage.getItem('refreshToken') == null) {
-                                window.location = Domain + "/login"
-                            } else {
-                                fetch(BasicApi.refreshToken().url, {
-                                    method: BasicApi.refreshToken().method,
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
-                                    }
-                                })
-                                    .then(resp => resp.json())
-                                    .then(oo => {
-                                        if (oo.success === false) {
-                                            document.location = window.location = Domain + "/login"
-                                        } else {
-                                            localStorage.setItem('accessToken', oo.data.accessToken)
-                                            localStorage.setItem('refreshToken', oo.data.refreshToken)
-                                            handleAdd()
+        if (category.length < 1) {
+            notification.error({text: 'Không được để trống'})
+        } else {
+            fetch(AdminApi.addCategory().url, {
+                method: AdminApi.addCategory().method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+                },
+                body: JSON.stringify({name: category, parentId: props.category.id})
+            })
+                .then(resp => resp.json())
+                .then(o => {
+                        if (o.success === false) {
+                            if (o.errorCode === 401) {
+                                if (localStorage.getItem('refreshToken') == null) {
+                                    window.location = Domain + "/login"
+                                } else {
+                                    fetch(BasicApi.refreshToken().url, {
+                                        method: BasicApi.refreshToken().method,
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
                                         }
                                     })
+                                        .then(resp => resp.json())
+                                        .then(oo => {
+                                            if (oo.success === false) {
+                                                document.location = window.location = Domain + "/login"
+                                            } else {
+                                                localStorage.setItem('accessToken', oo.data.accessToken)
+                                                localStorage.setItem('refreshToken', oo.data.refreshToken)
+                                                handleAdd()
+                                            }
+                                        })
+                                }
                             }
+                            notification.error({text: o.message})
+                        } else {
+                            notification.success({text: 'Thêm danh mục thành công'})
+                            props.onReload()
                         }
-                        notification.error({text: o.message})
                     }
-                    else {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.reload();
-                    }
-                }
-            )
+                )
+        }
     }
 
     return <>

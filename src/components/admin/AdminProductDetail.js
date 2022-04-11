@@ -7,15 +7,32 @@ import AdminDeleteProductImage from "./AdminDeleteProductImage";
 import AdminEditProductImage from "./AdminEditProductImage";
 
 const AdminProductDetail = (props) => {
-    const [product, setProduct] = useState(props.product)
+    const [product, setProduct] = useState({
+        message: null,
+        success: null,
+        data: {
+            name: props.product.name,
+            price: props.product.price,
+            discount: props.product.discount,
+            description: props.product.description,
+            productImages: props.product.productImages,
+            categories: props.product.categories
+        }
+    })
 
-    const [name, setName] = useState(product.name)
-    const [price, setPrice] = useState(product.price)
-    const [discount, setDiscount] = useState(product.discount)
-    const [description, setDescription] = useState(product.discount)
+    useEffect(() => {
+        fetch(BasicApi.getProductById(props.product.id).url)
+            .then((res) => res.json())
+            .then((o) => setProduct(o));
+    }, [props.product.id]);
+
+    const [name, setName] = useState(props.product.name)
+    const [price, setPrice] = useState(props.product.price)
+    const [discount, setDiscount] = useState(props.product.discount)
+    const [description, setDescription] = useState(props.product.description)
 
 
-    const [checked, setChecked] = useState([...product.categories.map(ca => ca.id)])
+    const [checked, setChecked] = useState([...props.product.categories.map(ca => ca.id)])
 
     const handleCheck = (id) => {
         setChecked(prev => {
@@ -71,10 +88,16 @@ const AdminProductDetail = (props) => {
             )
     }, [name, price, discount, description, checked, props.product.id]);
 
+    const handleAdd = () => {
+        fetch(BasicApi.getProductById(props.product.id).url)
+            .then((res) => res.json())
+            .then((o) => setProduct(o));
+    }
+
     return <>
         <span className="text-primary" data-toggle="modal"
-           data-target={`#ChiTietProductAdmin${product.id}`}>Chi tiết</span>
-        <div className="modal fade" id={`ChiTietProductAdmin${product.id}`} tabIndex="-1"
+              data-target={`#ChiTietProductAdmin${product.data.id}`}>Chi tiết</span>
+        <div className="modal fade" id={`ChiTietProductAdmin${product.data.id}`} tabIndex="-1"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-xl">
                 <div className="modal-content">
@@ -91,9 +114,9 @@ const AdminProductDetail = (props) => {
                                 <div className="row">
                                     <div className="col-sm-9">
                                         <ul>
-                                            <li><AdminAddProductImage product={product}/></li>
+                                            <li><AdminAddProductImage product={product} onReload={handleAdd}/></li>
                                             <li style={{marginTop: 10}}>Mã sản phẩm: <a
-                                                href={`/product-detail?id=${product.id}`}>{product.id}</a>
+                                                href={`/product-detail?id=${product.data.id}`}>{product.data.id}</a>
                                             </li>
                                             <li style={{marginTop: 10}}>
                                                 Tên: <input className="form-control" defaultValue={name}
@@ -119,12 +142,12 @@ const AdminProductDetail = (props) => {
                                         </ul>
                                     </div>
                                     <div className="col-sm-3">
-                                        {product.productImages.map(pi =>
+                                        {product.data.productImages.map(pi =>
                                             <div key={pi.id}>
-                                                <AdminEditProductImage productImage={pi}/>
-                                                <AdminDeleteProductImage productImage={pi}/>
+                                                <AdminEditProductImage productImage={pi} onReload={handleAdd}/>
+                                                <AdminDeleteProductImage productImage={pi} onReload={handleAdd}/>
                                                 <img src={pi.path} className="img-thumbnail"
-                                                     alt={product.name}/>
+                                                     alt={product.data.name}/>
                                             </div>
                                         )}
                                     </div>
