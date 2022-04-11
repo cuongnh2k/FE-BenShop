@@ -67,7 +67,7 @@ const AdminProduct = () => {
                     <input onChange={e => setSearch(e.target.value)} className="form-control" placeholder="Tìm kiếm"/>
                     <p style={{marginTop: 30}}>Danh mục</p>
                     <select className="form-control" onChange={e => setCategoryId(e.target.value)}>
-                        <option value=''>{''}</option>
+                        <option value=''>Tất cả</option>
                         {listCategory.data.map(o =>
                             <option key={o.id} value={o.id}>{o.name}</option>
                         )}

@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 
 const PurchaseOrder = () => {
     document.title = "Đơn mua"
-    const [status, setStatus] = useState('status=PENDING')
+    const [status, setStatus] = useState('status=')
     const [data, setData] = useState({message: null, success: null, data: {content: []}})
     const [page, setPage] = useState(0)
     let pages = []
@@ -108,8 +108,9 @@ const PurchaseOrder = () => {
             </p>
             <label htmlFor="cars">Trạng thái:</label>
             <select onChange={e => setStatus(e.target.value)} id="cars">
-                <option value="status=PENDING">Chờ xác nhận</option>
-                <option value="status=RESOLVED">Đã xác nhận</option>
+                <option value="status=">Tất cả</option>
+                <option value="status=PENDING">Chờ xử lý</option>
+                <option value="status=RESOLVED">Đã xử lý</option>
                 <option value="status=COMPLETED">Giao thành công</option>
                 <option value="status=CANCELED">Đã hủy</option>
             </select>
@@ -176,6 +177,8 @@ const PurchaseOrder = () => {
                     </div>
 
                     <li>Mã đơn hàng: {o.id}</li>
+                    <li>Trạng
+                        thái: {o.status === 'PENDING' ? 'Chờ xử lý' : (o.status === 'RESOLVED' ? 'Đã xử lý' : (o.status === 'COMPLETED' ? 'Giao thành công' : 'Đã hủy'))}</li>
                     <li>Ngày cập nhật: {new Date(o.updatedDate).toLocaleString()}</li>
                 </ul>
             )}

@@ -72,7 +72,7 @@ const AddToCart = (props) => {
         <br/>
         <label htmlFor="yeuCau" style={{marginTop: 20}}>Yêu cầu</label>
         <textarea className="form-control" rows="10" onChange={e => setYeuCau(e.target.value)}
-                  placeholder="Nhập chiều cao, cân nặng của bạn vào đây nhé. Những yêu cầu của bạn, chất liệu thay đổi, thêu, in ấn tên, logo. Có thể gửi link ảnh ở mục này nhé"/>
+                  placeholder="Nhập địa chỉ, chiều cao, cân nặng của bạn vào đây nhé. Những yêu cầu của bạn, chất liệu thay đổi, thêu, in ấn tên, logo. Có thể gửi link ảnh ở mục này nhé"/>
     </>
 }
 export default AddToCart
