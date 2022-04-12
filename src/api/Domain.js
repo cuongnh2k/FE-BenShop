@@ -1,2 +1,2 @@
-const Domain = "http://localhost:3000"
+const Domain = "https://benshop.online"
 export default Domain
