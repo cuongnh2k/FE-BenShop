@@ -1,43 +1,28 @@
-import {useEffect, useState} from "react";
-import Domain from "../api/Domain";
-import BasicApi from "../api/BasicApi";
-import UserApi from "../api/UserApi";
+import {useState} from "react";
 import {useNotification} from "react-hook-notification";
-import {useLocation} from "react-router-dom";
+import Domain from "../api/Domain";
+import UserApi from "../api/UserApi";
+import BasicApi from "../api/BasicApi";
 
-const CommentAdd = () => {
-    const [content, setContent] = useState('')
+const CommentAdd = (props) => {
+
+    const [comment, setComment] = useState('')
     const notification = useNotification()
-    let productId = ''
-    let location = useLocation()
-    if (location.search !== '') {
-        productId = location.search.split('=')[1]
-    } else {
-        window.location = Domain + "/product"
-    }
-    useEffect(() => {
-        fetch(BasicApi.getProductById(productId).url)
-            .then((res) => res.json())
-            .then((o) => setContent(o));
-    }, [productId]);
-    const handleComment = () => {
-        if (content.length < 1) {
-            notification.error({
-                text: 'Bình luận không được để trống'
-            })
-        } else if (content.length >= 1) {
 
+    function handleAddComment() {
+        if (comment.length < 1) {
+            notification.error({text: 'Không được để trống'})
+        } else {
             if (localStorage.getItem('accessToken') == null) {
                 window.location = Domain + "/login"
             } else {
-
-                fetch(UserApi.createCommentProduct(`${productId}`).url, {
-                    method: UserApi.createCommentProduct().method,
+                fetch(UserApi.createCommentProduct(props.productId.id).url, {
+                    method: UserApi.createCommentProduct(props.productId.id).method,
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
                     },
-                    body: JSON.stringify({content: content ,productId: productId})
+                    body: JSON.stringify({content: comment, parentId: props.parentId.id}),
                 })
                     .then(resp => resp.json())
                     .then(o => {
@@ -60,36 +45,26 @@ const CommentAdd = () => {
                                                 } else {
                                                     localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
                                                     localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
+                                                    handleAddComment()
                                                 }
                                             })
                                     }
-                                } else {
-                                    notification.error({
-                                        text: o.message
-                                    })
                                 }
+                                notification.error({text: o.message})
                             } else {
-                                localStorage.removeItem('storage')
-                                notification.success({
-                                    text: o.message
-                                })
+                                notification.success({text: 'Thêm bình luận thành công'})
+                                props.onReload()
                             }
                         }
                     )
             }
         }
     }
+
     return <>
-        <div className="row">
-            <div className="col-sm-5 col-md-6 col-12 pb-4">
-                <div className="coment-bottom bg-white p-2 px-4">
-                    <div className="d-flex flex-row add-comment-section mt-4 mb-4">
-                        <input  onChange={e => setContent(e.target.value)} type="text" className="form-control mr-3" placeholder="Bình luận ...."/>
-                        <button className="btn btn-primary" type="button" onClick={handleComment} ><i className="bi bi-send"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <textarea className="form-control" style={{maxWidth: 500, display: "inline"}}
+                  onChange={e => setComment(e.target.value)}></textarea>
+        <i className="bi bi-send text-primary" style={{marginLeft: 10}} onClick={handleAddComment}/>
     </>
 }
 export default CommentAdd

@@ -1,50 +1,62 @@
+import {useNotification} from "react-hook-notification";
+import jwt_decode from "jwt-decode";
 import UserApi from "../api/UserApi";
-import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
+import Domain from "../api/Domain";
 
-const CommentDelete =(props)=>{
+const CommentDelete = (props) => {
+    const notification = useNotification()
 
-    const handleDeleteComment =()=>{
-        fetch(UserApi.deleteProductComment(props.content.id).url, {
-            method: UserApi.deleteProductComment(props.content.id).method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-            },
-        })
-            .then(resp => resp.json())
-            .then(o => {
-                    if (o.success === false) {
-                        if (localStorage.getItem('refreshToken') == null) {
-                            window.location = Domain + "/login"
-                        } else {
-                            fetch(BasicApi.refreshToken().url, {
-                                method: BasicApi.refreshToken().method,
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
-                                }
-                            })
-                                .then(resp => resp.json())
-                                .then(oo => {
-                                    if (oo.success === false) {
-                                        document.location = window.location = Domain + "/login"
-                                    } else {
-                                        localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
-                                        localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
-                                        handleDeleteComment();
-                                    }
-                                })
-                        }
-                    } else {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.reload()
-                    }
+    function handleDelete() {
+        if (localStorage.getItem('accessToken') == null) {
+            window.location = Domain + "/login"
+        } else {
+            fetch(UserApi.deleteProductComment(props.comment.id).url, {
+                method: UserApi.deleteProductComment(props.comment.id).method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
                 }
-            )
+            })
+                .then(resp => resp.json())
+                .then(o => {
+                        if (o.success === false) {
+                            if (o.errorCode === 401) {
+                                if (localStorage.getItem('refreshToken') == null) {
+                                    window.location = Domain + "/login"
+                                } else {
+                                    fetch(BasicApi.refreshToken().url, {
+                                        method: BasicApi.refreshToken().method,
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
+                                        }
+                                    })
+                                        .then(resp => resp.json())
+                                        .then(oo => {
+                                            if (oo.success === false) {
+                                                document.location = window.location = Domain + "/login"
+                                            } else {
+                                                localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
+                                                localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
+                                                handleDelete()
+                                            }
+                                        })
+                                }
+                            }
+                            notification.error({text: o.message})
+                        } else {
+                            notification.success({text: 'Xóa bình luận thành công'})
+                            props.onReload()
+                        }
+                    }
+                )
+        }
     }
-    return<>
-        <button type="button" className="btn btn-secondary btn-sm" onClick={handleDeleteComment}>Xóa</button>
+
+    return <>{jwt_decode(localStorage.getItem('accessToken')).sub === props.comment.createdBy ?
+        <span className="text-danger" style={{marginTop: -5}} onClick={handleDelete}>Xóa</span> : ''}
     </>
 }
+
 export default CommentDelete
