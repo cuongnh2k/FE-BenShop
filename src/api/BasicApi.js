@@ -36,11 +36,23 @@ const BasicApi = {
             method: 'GET'
         }
     },
+    searchProductByProductId: (params, id) => {
+        return {
+            url: `${base}/product/${id}/category?${params}`,
+            method: 'GET'
+        }
+    },
     resetPassword: () => {
         return {
             url: `${base}/auth/reset-password`,
             method: 'POST'
         }
-    }
+    },
+    getCommentByProductId: (id, params) => {
+        return {
+            url: `${base}/product/${id}/comment?${params}`,
+            method: 'GET'
+        }
+    },
 }
 export default BasicApi

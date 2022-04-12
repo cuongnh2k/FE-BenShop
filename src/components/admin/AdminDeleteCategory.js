@@ -9,7 +9,7 @@ const AdminDeleteCategory = (props) => {
 
     const handleDelete = () => {
         fetch(AdminApi.deleteCategory(props.category.id).url, {
-            method:AdminApi.deleteCategory(props.category.id).method,
+            method: AdminApi.deleteCategory(props.category.id).method,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
@@ -43,8 +43,8 @@ const AdminDeleteCategory = (props) => {
                         }
                         notification.error({text: o.message})
                     } else {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.reload();
+                        notification.success({text: 'Xóa danh mục thành công'})
+                        props.onReload()
                     }
                 }
             )

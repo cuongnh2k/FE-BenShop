@@ -55,8 +55,8 @@ const AdminEditProductImage = (props) => {
                                 notification.error({text: o.message})
                             }
                         } else {
-                            // eslint-disable-next-line no-restricted-globals
-                            location.reload()
+                            notification.success({text: 'Sửa ảnh sản phẩm thành công'})
+                            props.onReload()
                         }
                     }
                 )

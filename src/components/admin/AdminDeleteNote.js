@@ -1,27 +1,26 @@
-import UserApi from "../api/UserApi";
-import Domain from "../api/Domain";
-import BasicApi from "../api/BasicApi";
+import jwt_decode from "jwt-decode";
+import AdminApi from "../../api/AdminApi";
+import Domain from "../../api/Domain";
+import BasicApi from "../../api/BasicApi";
 import {useNotification} from "react-hook-notification";
 
-const DeleteOrder = (props) => {
+const AdminDeleteNote = (props) => {
 
     const notification = useNotification()
 
-    const handleDelete = () => {
-        if (localStorage.getItem('accessToken') == null) {
-            window.location = Domain + "/login"
-        } else {
-            fetch(UserApi.deleteOrder(props.order.id).url, {
-                method: UserApi.deleteOrder(props.order.id).method,
+    function handleDelete() {
+        if (localStorage.getItem('accessToken') != null) {
+            fetch(AdminApi.deleteNote(props.note.id).url, {
+                method: AdminApi.deleteNote(props.note.id).method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-                },
+                }
             })
                 .then(resp => resp.json())
                 .then(o => {
                         if (o.success === false) {
-                            if (o.success === 401) {
+                            if (o.errorCode === 401) {
                                 if (localStorage.getItem('refreshToken') == null) {
                                     window.location = Domain + "/login"
                                 } else {
@@ -35,28 +34,30 @@ const DeleteOrder = (props) => {
                                         .then(resp => resp.json())
                                         .then(oo => {
                                             if (oo.success === false) {
-                                                document.location = window.location = Domain + "/login"
+                                                window.location = Domain + "/login"
                                             } else {
-                                                localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
-                                                localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
+                                                localStorage.setItem('accessToken', oo.data.accessToken)
+                                                localStorage.setItem('refreshToken', oo.data.refreshToken)
                                                 handleDelete()
                                             }
                                         })
                                 }
-                            } else {
-                                notification.error({text: o.message})
                             }
+                            notification.success({text: o.message})
                         } else {
-                            notification.success({text: 'Hủy đơn hàng thành công'})
+                            notification.success({text: 'Xóa ghi chú thành công'})
                             props.onReload()
-
                         }
                     }
                 )
+        } else {
+            window.location = Domain + "/login"
         }
     }
-    return <span onClick={handleDelete} style={{marginLeft: 30}} className="text-danger">
-                        {props.order.status === 'PENDING' ? 'Xóa' : ''}
-                    </span>
+
+    return <>
+        {jwt_decode(localStorage.getItem('accessToken')).sub === props.note.createdBy ?
+            <i className="bi bi-trash2-fill text-danger" onClick={handleDelete}/> : ''}
+    </>
 }
-export default DeleteOrder
+export default AdminDeleteNote

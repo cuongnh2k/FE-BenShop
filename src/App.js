@@ -10,10 +10,13 @@ import AdminOrder from "./pages/admin/AdminOrder";
 import AdminProduct from "./pages/admin/AdminProduct";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
+<<<<<<< HEAD
 import UserDetail from "./components/UserDetail";
 import EditUserDetail from "./components/EditUserDetail";
 import ListDevice from "./components/ListDevice";
 import EditUserEmail from "./components/EditUserEmail";
+=======
+>>>>>>> 7e88aacb60a449d017fbe84c86f75d815c1f0746
 
 const App = () => {
     return <>
@@ -33,6 +36,18 @@ const App = () => {
             <Route path='/user/edit-user-detail' element={<EditUserDetail />} />
             <Route path='/user/list-devices' element={<ListDevice />} />
             <Route path='/user/edit-user-email' element={<EditUserEmail />} />
+
+            <Route path='/' element={<Home />} />
+            <Route path='/product-detail' element={<Detail />} />
+            <Route path='/product' element={<Product />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/purchase-order' element={<PurchaseOrder />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/reset-password' element={<ResetPassword />} />
+            <Route path='/admin/category' element={<AdminCategory />} />
+            <Route path='/admin/order' element={<AdminOrder />} />
+            <Route path='/admin/product' element={<AdminProduct />} />
         </Routes>
     </>
 }

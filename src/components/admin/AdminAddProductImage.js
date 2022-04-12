@@ -18,8 +18,8 @@ const AdminAddProductImage = (props) => {
         } else {
             const formData = new FormData()
             formData.append('image', image);
-            fetch(AdminApi.addProductImage(props.product.id).url, {
-                method: AdminApi.addProductImage(props.product.id).method,
+            fetch(AdminApi.addProductImage(props.product.data.id).url, {
+                method: AdminApi.addProductImage(props.product.data.id).method,
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
                 },
@@ -55,8 +55,8 @@ const AdminAddProductImage = (props) => {
                                 notification.error({text: o.message})
                             }
                         } else {
-                            // eslint-disable-next-line no-restricted-globals
-                            location.reload()
+                            notification.success({text: 'Thêm ảnh sản phẩm thành công'})
+                            props.onReload()
                         }
                     }
                 )
@@ -64,10 +64,10 @@ const AdminAddProductImage = (props) => {
     }
 
     return <>
-        <button className="btn- btn-success" data-toggle="modal" data-target={`#themAnh${props.product.id}`}>
+        <button className="btn- btn-success" data-toggle="modal" data-target={`#themAnh${props.product.data.id}`}>
             Thêm ảnh
         </button>
-        <div className="modal fade bg-secondary" id={`themAnh${props.product.id}`} tabIndex="-1"
+        <div className="modal fade bg-secondary" id={`themAnh${props.product.data.id}`} tabIndex="-1"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div className="modal-dialog">

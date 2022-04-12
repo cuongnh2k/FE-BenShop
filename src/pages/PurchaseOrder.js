@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 
 const PurchaseOrder = () => {
     document.title = "Đơn mua"
-    const [status, setStatus] = useState('status=PENDING')
+    const [status, setStatus] = useState('status=')
     const [data, setData] = useState({message: null, success: null, data: {content: []}})
     const [page, setPage] = useState(0)
     let pages = []
@@ -62,6 +62,44 @@ const PurchaseOrder = () => {
         }
     }
 
+    let onReloadHandle = () => {
+        fetch(UserApi.searchOrder(`${status}&size=5&page=${page}`).url, {
+            method: UserApi.searchOrder(status).method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+        })
+            .then(resp => resp.json())
+            .then(o => {
+                    if (o.success === false) {
+                        if (localStorage.getItem('refreshToken') == null) {
+                            window.location = Domain + "/login"
+                        } else {
+                            fetch(BasicApi.refreshToken().url, {
+                                method: BasicApi.refreshToken().method,
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + localStorage.getItem('refreshToken')
+                                }
+                            })
+                                .then(resp => resp.json())
+                                .then(oo => {
+                                    if (oo.success === false) {
+                                        document.location = window.location = Domain + "/login"
+                                    } else {
+                                        localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
+                                        localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
+                                        PurchaseOrder()
+                                    }
+                                })
+                        }
+                    } else {
+                        setData(o)
+                    }
+                }
+            )
+    };
     return <>
         <Header/>
         <main style={{marginTop: 120}}>
@@ -70,8 +108,9 @@ const PurchaseOrder = () => {
             </p>
             <label htmlFor="cars">Trạng thái:</label>
             <select onChange={e => setStatus(e.target.value)} id="cars">
-                <option value="status=PENDING">Chờ xác nhận</option>
-                <option value="status=RESOLVED">Đã xác nhận</option>
+                <option value="status=">Tất cả</option>
+                <option value="status=PENDING">Chờ xử lý</option>
+                <option value="status=RESOLVED">Đã xử lý</option>
                 <option value="status=COMPLETED">Giao thành công</option>
                 <option value="status=CANCELED">Đã hủy</option>
             </select>
@@ -82,7 +121,7 @@ const PurchaseOrder = () => {
                     <span className="text-primary" data-toggle="modal" data-target={`#OrderDetail${o.id}`}>
                         Chi tiết
                     </span>
-                        <DeleteOrder order={o}/>
+                        <DeleteOrder order={o} onReload={onReloadHandle}/>
                     </li>
                     <div className="modal fade" id={`OrderDetail${o.id}`} tabIndex="-1"
                          aria-labelledby="exampleModalLabel"
@@ -138,6 +177,8 @@ const PurchaseOrder = () => {
                     </div>
 
                     <li>Mã đơn hàng: {o.id}</li>
+                    <li>Trạng
+                        thái: {o.status === 'PENDING' ? 'Chờ xử lý' : (o.status === 'RESOLVED' ? 'Đã xử lý' : (o.status === 'COMPLETED' ? 'Giao thành công' : 'Đã hủy'))}</li>
                     <li>Ngày cập nhật: {new Date(o.updatedDate).toLocaleString()}</li>
                 </ul>
             )}

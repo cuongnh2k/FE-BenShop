@@ -1,27 +1,27 @@
-import UserApi from "../api/UserApi";
-import Domain from "../api/Domain";
-import BasicApi from "../api/BasicApi";
 import {useNotification} from "react-hook-notification";
+import jwt_decode from "jwt-decode";
+import UserApi from "../api/UserApi";
+import BasicApi from "../api/BasicApi";
+import Domain from "../api/Domain";
 
-const DeleteOrder = (props) => {
-
+const CommentDelete = (props) => {
     const notification = useNotification()
 
-    const handleDelete = () => {
+    function handleDelete() {
         if (localStorage.getItem('accessToken') == null) {
             window.location = Domain + "/login"
         } else {
-            fetch(UserApi.deleteOrder(props.order.id).url, {
-                method: UserApi.deleteOrder(props.order.id).method,
+            fetch(UserApi.deleteProductComment(props.comment.id).url, {
+                method: UserApi.deleteProductComment(props.comment.id).method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-                },
+                }
             })
                 .then(resp => resp.json())
                 .then(o => {
                         if (o.success === false) {
-                            if (o.success === 401) {
+                            if (o.errorCode === 401) {
                                 if (localStorage.getItem('refreshToken') == null) {
                                     window.location = Domain + "/login"
                                 } else {
@@ -43,20 +43,20 @@ const DeleteOrder = (props) => {
                                             }
                                         })
                                 }
-                            } else {
-                                notification.error({text: o.message})
                             }
+                            notification.error({text: o.message})
                         } else {
-                            notification.success({text: 'Hủy đơn hàng thành công'})
+                            notification.success({text: 'Xóa bình luận thành công'})
                             props.onReload()
-
                         }
                     }
                 )
         }
     }
-    return <span onClick={handleDelete} style={{marginLeft: 30}} className="text-danger">
-                        {props.order.status === 'PENDING' ? 'Xóa' : ''}
-                    </span>
+
+    return <>{jwt_decode(localStorage.getItem('accessToken')).sub === props.comment.createdBy ?
+        <span className="text-danger" style={{marginTop: -5}} onClick={handleDelete}>Xóa</span> : ''}
+    </>
 }
-export default DeleteOrder
+
+export default CommentDelete

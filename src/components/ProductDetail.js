@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
 import AddToCart from "./AddToCart";
+import ProductPropose from "./ProductPropose";
+import Comment from "./Comment";
 
 const ProductDetail = () => {
     const [product, setProduct] = useState({message: null, success: null, data: {productImages: [{path: null}]}})
     const [path, setPath] = useState('')
-
     let productId = ''
     let location = useLocation()
     if (location.search !== '') {
@@ -21,6 +22,7 @@ const ProductDetail = () => {
             .then((res) => res.json())
             .then((o) => setProduct(o));
     }, [productId]);
+
 
     document.title = product.data.name
 
@@ -54,6 +56,12 @@ const ProductDetail = () => {
             <div className="col-12 border-top">
                 <h3 style={{marginTop: 20}}>Chi tiết sản phẩm</h3>
                 {product.data.description || `Đang cập nhật ...`}
+            </div>
+            <div className="col-12 border-top">
+                <ProductPropose productId={{id: productId}}/>
+            </div>
+            <div className="col-12">
+                <Comment productId={{id: productId}}/>
             </div>
         </div>
     </>
