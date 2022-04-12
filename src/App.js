@@ -14,7 +14,6 @@ import AdminUser from "./pages/admin/AdminUser";
 import UserDetail from "./components/UserDetail";
 import EditUserDetail from "./components/EditUserDetail";
 import ListDevice from "./components/ListDevice";
-import UserEmail from "./components/UserEmail";
 import EditUserEmail from "./components/EditUserEmail";
 
 const App = () => {
@@ -36,7 +35,7 @@ const App = () => {
             <Route path='/user/edit-user-detail' element={<EditUserDetail />} />
             <Route path='/user/list-devices' element={<ListDevice />} />
             <Route path='/user/edit-user-email' element={<EditUserEmail />} />
-            <Route path='/user/user-email' element={<UserEmail />} />
+
         </Routes>
     </>
 }
