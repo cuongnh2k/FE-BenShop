@@ -1,4 +1,4 @@
-const base = 'https://54.179.82.237/api/v1/admin'
+const base = 'http://54.179.82.237/BE-BenShop/api/v1/admin'
 const AdminApi = {
     editCategory: (id) => {
         return {
