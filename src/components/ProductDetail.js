@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
 import AddToCart from "./AddToCart";
-import CommentAdd from "./CommentAdd";
+import ProductPropose from "./ProductPropose";
 import Comment from "./Comment";
 
 const ProductDetail = () => {
@@ -57,10 +57,13 @@ const ProductDetail = () => {
                 <h3 style={{marginTop: 20}}>Chi tiết sản phẩm</h3>
                 {product.data.description || `Đang cập nhật ...`}
             </div>
+            <div className="col-12 border-top">
+                <ProductPropose productId={{id: productId}}/>
+            </div>
+            <div className="col-12">
+                <Comment productId={{id: productId}}/>
+            </div>
         </div>
-        <CommentAdd/>
-        <Comment/>
-
     </>
 }
 export default ProductDetail
