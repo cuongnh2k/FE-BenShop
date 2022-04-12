@@ -10,7 +10,6 @@ import AdminOrder from "./pages/admin/AdminOrder";
 import AdminProduct from "./pages/admin/AdminProduct";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
-import AdminUser from "./pages/admin/AdminUser";
 import UserDetail from "./components/UserDetail";
 import EditUserDetail from "./components/EditUserDetail";
 import ListDevice from "./components/ListDevice";
@@ -30,12 +29,10 @@ const App = () => {
             <Route path='/admin/category' element={<AdminCategory />} />
             <Route path='/admin/order' element={<AdminOrder />} />
             <Route path='/admin/product' element={<AdminProduct />} />
-            <Route path='/admin/user' element={<AdminUser />} />
             <Route path='/user/user-detail' element={<UserDetail />} />
             <Route path='/user/edit-user-detail' element={<EditUserDetail />} />
             <Route path='/user/list-devices' element={<ListDevice />} />
             <Route path='/user/edit-user-email' element={<EditUserEmail />} />
-
         </Routes>
     </>
 }
