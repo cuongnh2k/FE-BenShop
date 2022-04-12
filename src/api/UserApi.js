@@ -45,7 +45,7 @@ const UserApi = {
 
     logouts: (params) => {
         return {
-            url: `${base}/device/logouts/${params}`,
+            url: `${base}/device/logouts?ids=${params}`,
             method: 'DELETE'
         }
     },
@@ -54,6 +54,25 @@ const UserApi = {
             url: `${base}/device/logout`,
             method: 'DELETE'
         }
+    },
+    getCurrentUser: () => {
+        return {
+            url: `${base}`,
+            method: 'GET'
+        }
+    },
+    editCurrentUser: () => {
+        return {
+            url: `${base}`,
+            method: 'PATCH'
+        }
+    },
+    editPasswordOrMail: () => {
+        return {
+            url: `${base}/edit-password`,
+            method: 'PATCH'
+        }
     }
+
 }
 export default UserApi
