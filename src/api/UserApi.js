@@ -30,12 +30,19 @@ const UserApi = {
             method: 'POST'
         }
     },
-    getCommentByProductId: (id) => {
-        return {
-            url: `${base}/product/${id}/comment`,
-            method: 'GET'
+    editProductComment: (id)=>{
+        return{
+            url:`${base}/product/comment/${id}`,
+            method:'PATCH'
         }
     },
+    deleteProductComment:(id)=>{
+        return{
+            url:`${base}/product/comment/${id}`,
+            method:'DELETE'
+        }
+    },
+
     logouts: (params) => {
         return {
             url: `${base}/device/logouts/${params}`,

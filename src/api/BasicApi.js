@@ -41,6 +41,12 @@ const BasicApi = {
             url: `${base}/auth/reset-password`,
             method: 'POST'
         }
-    }
+    },
+    getCommentByProductId: (id, params) => {
+        return {
+            url: `${base}/product/${id}/comment?${params}`,
+            method: 'GET'
+        }
+    },
 }
 export default BasicApi

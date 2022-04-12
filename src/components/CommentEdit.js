@@ -1,26 +1,15 @@
-import {useEffect, useState} from "react";
+import UserApi from "../api/UserApi";
 import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
-import UserApi from "../api/UserApi";
 import {useNotification} from "react-hook-notification";
-import {useLocation} from "react-router-dom";
+import {useState} from "react";
 
-const AddComment = () => {
-    const [content, setContent] = useState('')
+const CommentEdit=(props)=>{
+
+    const [content, setContent] = useState(props.content.content)
     const notification = useNotification()
-    let productId = ''
-    let location = useLocation()
-    if (location.search !== '') {
-        productId = location.search.split('=')[1]
-    } else {
-        window.location = Domain + "/product"
-    }
-    useEffect(() => {
-        fetch(BasicApi.getProductById(productId).url)
-            .then((res) => res.json())
-            .then((o) => setContent(o));
-    }, [productId]);
-    const handleComment = () => {
+
+    const  handleComment = () =>{
         if (content.length < 1) {
             notification.error({
                 text: 'Bình luận không được để trống'
@@ -30,14 +19,13 @@ const AddComment = () => {
             if (localStorage.getItem('accessToken') == null) {
                 window.location = Domain + "/login"
             } else {
-
-                fetch(UserApi.createCommentProduct(`${productId}`).url, {
-                    method: UserApi.createCommentProduct().method,
+                fetch(UserApi.editProductComment(props.content.id).url, {
+                    method: UserApi.editProductComment(props.content.id).method,
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
                     },
-                    body: JSON.stringify({content: content ,productId: productId})
+                    body: JSON.stringify({content: content})
                 })
                     .then(resp => resp.json())
                     .then(o => {
@@ -60,6 +48,7 @@ const AddComment = () => {
                                                 } else {
                                                     localStorage.setItem('accessToken', JSON.stringify(oo.data.accessToken))
                                                     localStorage.setItem('refreshToken', JSON.stringify(oo.data.refreshToken))
+                                                    CommentEdit(props);
                                                 }
                                             })
                                     }
@@ -79,21 +68,20 @@ const AddComment = () => {
             }
         }
     }
-    return <>
-        <div className="row">
+    return<>
+        <button aria-expanded="false" className="btn btn-outline-danger"
+                data-toggle="collapse" data-target="#boxnoidung" style={{height:30}}>Sửa
+        </button>
+        <div className="collapse mt-4" id="boxnoidung">
             <div className="col-sm-5 col-md-6 col-12 pb-4">
-                <h2>Bình luận</h2>
-                <div className="comment mt-4 text-justify float-left display: flex justify-content: center">
-                    <span>Viết bình luận</span>
-                    <br/>
-                    <input onChange={e => setContent(e.target.value)} type="text" id="content" className="form-control"
-                           placeholder="Bình luận ...."/>
-                    <button onClick={handleComment} className="btn btn-success">
-                        <i className="bi bi-send"></i>
-                    </button>
+                <div className="coment-bottom bg-white p-2 px-4">
+                    <div className="d-flex flex-row add-comment-section mt-4 mb-4">
+                        <input  type="text"  className="form-control " style={{width:200}} value={content} onChange={e => setContent(e.target.value)} />
+                        <button className="btn btn-primary" type="button"  onClick={handleComment} ><i className="bi bi-send"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
     </>
 }
-export default AddComment
+export default CommentEdit

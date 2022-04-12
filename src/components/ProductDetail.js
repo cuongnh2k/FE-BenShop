@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
 import AddToCart from "./AddToCart";
-import AddComment from "./AddComment";
+import CommentAdd from "./CommentAdd";
 import Comment from "./Comment";
 
 const ProductDetail = () => {
@@ -58,7 +58,7 @@ const ProductDetail = () => {
                 {product.data.description || `Đang cập nhật ...`}
             </div>
         </div>
-        <AddComment/>
+        <CommentAdd/>
         <Comment/>
 
     </>
