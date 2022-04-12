@@ -1,4 +1,4 @@
-const base = 'http://54.179.82.237/api/v1/basic'
+const base = 'https://54.179.82.237/api/v1/basic'
 const BasicApi = {
     login: () => {
         return {
