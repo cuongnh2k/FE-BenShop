@@ -13,11 +13,11 @@ const ProductCard = (props) => {
             <p className="card-text text-center text-truncate text-danger">
                 {props.product.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
             </p>
-            <p className="card-text text-center">
-                <small className="text-muted">
-                    {moment(props.product.updatedDate).fromNow()}
-                </small>
-            </p>
+            {/*<p className="card-text text-center">*/}
+            {/*    <small className="text-muted">*/}
+            {/*        {moment(props.product.updatedDate).fromNow()}*/}
+            {/*    </small>*/}
+            {/*</p>*/}
         </div>
     </Link>
 }
