@@ -54,8 +54,8 @@ const CommentDelete = (props) => {
         }
     }
 
-    return <>{jwt_decode(localStorage.getItem('accessToken')).sub === props.comment.createdBy ?
-        <span className="text-danger" style={{marginTop: -5}} onClick={handleDelete}>Xóa</span> : ''}
+    return <>{localStorage.getItem('accessToken')!=null?(jwt_decode(localStorage.getItem('accessToken')).sub === props.comment.createdBy ?
+        <span className="text-danger" style={{marginTop: -5}} onClick={handleDelete}>Xóa</span> : ''):''}
     </>
 }
 

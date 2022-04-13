@@ -3,8 +3,8 @@ import {useEffect, useState} from "react";
 import Domain from "../api/Domain";
 import BasicApi from "../api/BasicApi";
 import AddToCart from "./AddToCart";
-import ProductPropose from "./ProductPropose";
 import Comment from "./Comment";
+import ProductPropose from "./ProductPropose";
 
 const ProductDetail = () => {
     const [product, setProduct] = useState({message: null, success: null, data: {productImages: [{path: null}]}})

@@ -62,9 +62,9 @@ const CommentEdit = (props) => {
     }
 
     return <>
-        {jwt_decode(localStorage.getItem('accessToken')).sub === props.comment.createdBy ?
+        {localStorage.getItem('accessToken')!=null?(jwt_decode(localStorage.getItem('accessToken')).sub === props.comment.createdBy ?
             <span style={{marginLeft: 10}} className="text-warning" data-toggle="modal"
-                  data-target={`#suaComment${props.comment.id}`}>Sửa</span> : ''}
+                  data-target={`#suaComment${props.comment.id}`}>Sửa</span> : ''):''}
 
         <div className="modal fade" id={`suaComment${props.comment.id}`} tabIndex="-1"
              aria-labelledby="exampleModalLabel"
